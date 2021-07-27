@@ -1,5 +1,6 @@
 package com.ruoyi.framework.web.domain.po;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.SecurityUtils;
@@ -27,6 +28,7 @@ public class BasePo implements Serializable
     private static final String DELERE_FREEZE_FLAG = "2";
 
     /**主键*/
+    @TableId
     private Long id;
 
     /**创建人*/
