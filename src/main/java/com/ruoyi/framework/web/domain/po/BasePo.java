@@ -1,5 +1,8 @@
 package com.ruoyi.framework.web.domain.po;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.SecurityUtils;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -27,15 +30,17 @@ public class BasePo implements Serializable
     private Long id;
 
     /**创建人*/
-    private String createBy;
+    private Long createBy;
 
     /**创建时间*/
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /**修改人*/
-    private String updateBy;
+    private Long updateBy;
 
     /**修改时间*/
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     /**备注信息*/
@@ -43,4 +48,25 @@ public class BasePo implements Serializable
 
     /**删除标志*/
     private String delFlag;
+
+    /**
+     * 新增初始化,需手动调用
+     */
+    public void preInsert()
+    {
+        this.createBy = SecurityUtils.getUserId();
+        this.updateBy = SecurityUtils.getUserId();
+        this.createTime = DateUtils.getNowDate();
+        this.updateTime = DateUtils.getNowDate();
+        this.delFlag = DELETE_NORMAL_FLAG;
+    }
+
+    /**
+     * 修改初始化,需手动调用
+     */
+    public void preUpdate()
+    {
+        this.updateBy = SecurityUtils.getUserId();
+        this.updateTime = DateUtils.getNowDate();
+    }
 }

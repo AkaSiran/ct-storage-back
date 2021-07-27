@@ -40,7 +40,7 @@
 		<oshi.version>5.7.5</oshi.version>
         <jna.version>5.8.0</jna.version>
 		<velocity.version>1.7</velocity.version>
-		<knife4j.version>3.0.3</knife4j.version>
+		<knife4j.version>2.0.2</knife4j.version>
 	</properties>
 
 	<dependencies>

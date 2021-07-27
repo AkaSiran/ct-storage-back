@@ -9,17 +9,16 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by Fyc on 2021-7-23.
- * 基础ResponseDto
+ * Created by Fyc on 2021-7-26.
+ * 基础RequestDto
  */
 @Data
-@ApiModel("回参信息")
-public class BaseResponseDto implements Serializable
+@ApiModel("入参信息")
+public class BaseRequestDto implements Serializable
 {
-
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(notes = "主键")
+    @ApiModelProperty(notes = "主键", required = true)
     private Long id;
 
     @ApiModelProperty(notes = "创建人")
@@ -41,5 +40,4 @@ public class BaseResponseDto implements Serializable
 
     @ApiModelProperty(notes = "删除标志")
     private String delFlag;
-
 }

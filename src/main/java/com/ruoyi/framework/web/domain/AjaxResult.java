@@ -1,25 +1,32 @@
 package com.ruoyi.framework.web.domain;
 
-import java.util.HashMap;
 import com.ruoyi.common.constant.HttpStatus;
 import com.ruoyi.common.utils.StringUtils;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import java.util.HashMap;
 
 /**
  * 操作消息提醒
  * 
  * @author ruoyi
  */
+@ApiModel("返回结果")
 public class AjaxResult extends HashMap<String, Object>
 {
     private static final long serialVersionUID = 1L;
 
     /** 状态码 */
+    @ApiModelProperty(notes = "返回状态码")
     public static final String CODE_TAG = "code";
 
     /** 返回内容 */
+    @ApiModelProperty(notes = "返回信息")
     public static final String MSG_TAG = "msg";
 
     /** 数据对象 */
+    @ApiModelProperty(notes = "返回数据")
     public static final String DATA_TAG = "data";
 
     /**
@@ -35,6 +42,7 @@ public class AjaxResult extends HashMap<String, Object>
      * @param code 状态码
      * @param msg 返回内容
      */
+
     public AjaxResult(int code, String msg)
     {
         super.put(CODE_TAG, code);
