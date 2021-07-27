@@ -1,5 +1,6 @@
 package com.ruoyi.project.vocsupplier.domain.dto;
 
+import com.ruoyi.framework.web.domain.dto.BaseRequestDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -10,7 +11,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel("供应商信息分页列表")
-public class SelectVocSupplierRequestDto
+public class SelectVocSupplierRequestDto extends BaseRequestDto
 {
     @ApiModelProperty(value = "供应商编号")
     private String no;

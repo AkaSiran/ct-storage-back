@@ -1,5 +1,6 @@
 package com.ruoyi.project.vocsupplier.domain.dto;
 
+import com.ruoyi.framework.web.domain.dto.BaseRequestDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -11,7 +12,7 @@ import lombok.Data;
  */
 @ApiModel("修改供应商信息")
 @Data
-public class UpdateVocSupplierRequestDto
+public class UpdateVocSupplierRequestDto extends BaseRequestDto
 {
 
     @ApiModelProperty(value = "主键", required = true)

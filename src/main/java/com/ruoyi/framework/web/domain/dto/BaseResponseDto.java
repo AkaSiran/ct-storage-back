@@ -19,27 +19,27 @@ public class BaseResponseDto implements Serializable
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(notes = "主键")
+    @ApiModelProperty(value = "主键")
     private Long id;
 
-    @ApiModelProperty(notes = "创建人")
+    @ApiModelProperty(value = "创建人")
     private String createBy;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(notes = "创建时间")
+    @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
-    @ApiModelProperty(notes = "修改人")
+    @ApiModelProperty(value = "修改人")
     private String updateBy;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(notes = "修改时间")
+    @ApiModelProperty(value = "修改时间")
     private Date updateTime;
 
-    @ApiModelProperty(notes = "备注信息")
+    @ApiModelProperty(value = "备注信息")
     private String remarks;
 
-    @ApiModelProperty(notes = "删除标志")
+    @ApiModelProperty(value = "删除标志")
     private String delFlag;
 
 }

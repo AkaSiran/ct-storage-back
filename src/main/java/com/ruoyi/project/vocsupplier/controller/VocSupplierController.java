@@ -68,7 +68,7 @@ public class VocSupplierController extends BaseController
             @ApiResponse(code = 200, message = "请求成功", response = SelectVocSupplierResponseDto.class)
     })
     @GetMapping("/detail/{id}")
-    public AjaxResult supplierDetail(@PathVariable Long id)
+    public AjaxResult supplierDetail(@PathVariable("id") Long id)
     {
         return vocSupplierService.supplierDetail(id);
     }
@@ -105,7 +105,7 @@ public class VocSupplierController extends BaseController
     })
     @ApiOperationSupport(author = "Fyc")
     @DeleteMapping("/delete")
-    public AjaxResult deleteSupplier(@PathVariable Long id)
+    public AjaxResult deleteSupplier(@PathVariable("id") Long id)
     {
         return toAjax(vocSupplierService.removeById(id));
     }
