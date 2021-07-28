@@ -39,7 +39,7 @@ public class Knife4jConfiguration
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .description("酷汀进销存系统接口文档")
-                .contact(new Contact("哈哈哈", "https://github.com.lenve", "1916008067@qq.com"))
+                .contact(new Contact("进销存", "https://github.com.lenve", "1916008067@qq.com"))
                 .version("v1.0.0")
                 .title("API文档")
                 .build();
