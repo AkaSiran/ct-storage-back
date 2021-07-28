@@ -153,4 +153,13 @@ public class AjaxResult extends HashMap<String, Object>
     {
         return new AjaxResult(code, msg, null);
     }
+
+    /**
+     * 返回成功判断
+     * @return
+     */
+    public boolean isOK()
+    {
+        return get("code").equals(200);
+    }
 }
