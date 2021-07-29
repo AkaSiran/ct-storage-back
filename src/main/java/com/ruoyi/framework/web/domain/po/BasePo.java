@@ -3,7 +3,6 @@ package com.ruoyi.framework.web.domain.po;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.SecurityUtils;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -56,8 +55,10 @@ public class BasePo implements Serializable
      */
     public void preInsert()
     {
-        this.createBy = SecurityUtils.getUserId();
-        this.updateBy = SecurityUtils.getUserId();
+//        this.createBy = SecurityUtils.getUserId();
+//        this.updateBy = SecurityUtils.getUserId();
+        this.createBy = 1L;
+        this.updateBy = 1L;
         this.createTime = DateUtils.getNowDate();
         this.updateTime = DateUtils.getNowDate();
         this.delFlag = DELETE_NORMAL_FLAG;
@@ -68,7 +69,8 @@ public class BasePo implements Serializable
      */
     public void preUpdate()
     {
-        this.updateBy = SecurityUtils.getUserId();
+//        this.updateBy = SecurityUtils.getUserId();
+        this.updateBy = 1L;
         this.updateTime = DateUtils.getNowDate();
     }
 }

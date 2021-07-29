@@ -48,7 +48,7 @@ public class VocStoreServiceImpl extends ServiceImpl<VocStoreMapper,VocStore> im
         VocStore vocStore = new VocStore();
         Long deptId = insertVocStoreRequestDto.getDeptId();
         BeanUtils.copyProperties(insertVocStoreRequestDto,vocStore);
-        //vocStore.preInsert();
+        vocStore.preInsert();
         save(vocStore);
         //入库商品信息保存
         Long storeId = vocStore.getId();
@@ -57,7 +57,7 @@ public class VocStoreServiceImpl extends ServiceImpl<VocStoreMapper,VocStore> im
             VocStoreItem vocStoreItem = new VocStoreItem();
             BeanUtils.copyProperties(storeItemRequestDto,vocStoreItem);
             vocStoreItem.setStoreId(storeId);
-            //vocStoreItem.preInsert();
+            vocStoreItem.preInsert();
             vocStoreItemMapper.insert(vocStoreItem);
             //库存信息保存
             PutVocInventoryRequestDto putVocInventoryRequestDto = new PutVocInventoryRequestDto();

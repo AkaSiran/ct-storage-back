@@ -50,7 +50,7 @@ public class VocDeliverServiceImpl extends ServiceImpl<VocDeliverMapper,VocDeliv
         VocDeliver vocDeliver = new VocDeliver();
         Long deptId = insertVocDeliverRequestDto.getDeptId();
         BeanUtils.copyProperties(insertVocDeliverRequestDto,vocDeliver);
-        //vocDeliver.preInsert();
+        vocDeliver.preInsert();
         save(vocDeliver);
         //出库商品信息保存
         Long deliverId = vocDeliver.getId();
@@ -59,7 +59,7 @@ public class VocDeliverServiceImpl extends ServiceImpl<VocDeliverMapper,VocDeliv
             VocDeliverItem vocDeliverItem = new VocDeliverItem();
             BeanUtils.copyProperties(deliverItemRequestDto,vocDeliverItem);
             vocDeliverItem.setDeliverId(deliverId);
-            //vocDeliverItem.preInsert();
+            vocDeliverItem.preInsert();
             vocDeliverItemMapper.insert(vocDeliverItem);
             //库存信息保存
             TakeVocInventoryRequestDto takeVocInventoryRequestDto = new TakeVocInventoryRequestDto();
