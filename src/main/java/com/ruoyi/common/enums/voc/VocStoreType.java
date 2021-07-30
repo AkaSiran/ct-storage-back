@@ -1,25 +1,25 @@
 package com.ruoyi.common.enums.voc;
 
 /**
- * Created by Fyc on 2021-7-29.
- * 采购状态
+ * Created by Fyc on 2021-7-30.
+ * 入库类型
  */
-public enum VocPurchaseStatus
+public enum VocStoreType
 {
+    PURCHASE_STORAGE("001","采购入库"),
 
-    PLACED("001","已下单"),
+    ALLOT_STORAGE("002","调拨入库");
 
-    STORAGE("002","已入库");
 
-    private final String code;
-
-    private final String info;
-
-    VocPurchaseStatus(String code, String info)
+    VocStoreType(String code, String info)
     {
         this.code = code;
         this.info = info;
     }
+
+    private final String code;
+
+    private final String info;
 
     public String getCode()
     {
@@ -31,9 +31,9 @@ public enum VocPurchaseStatus
         return info;
     }
 
-    public static String getStatusName(String code)
+    public static String getStorageName(String code)
     {
-        for (VocPurchaseStatus type : VocPurchaseStatus.values())
+        for (VocStoreType type : VocStoreType.values())
         {
             if (code.equals(type.getCode()))
             {

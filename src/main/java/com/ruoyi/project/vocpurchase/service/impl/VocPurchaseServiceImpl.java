@@ -3,6 +3,8 @@ package com.ruoyi.project.vocpurchase.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
+import com.ruoyi.common.enums.voc.VocPurchaseStatus;
+import com.ruoyi.common.enums.voc.VocStoreType;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.vocpurchase.domain.dto.InsertVocPurchaseItemRequestDto;
@@ -14,6 +16,8 @@ import com.ruoyi.project.vocpurchase.domain.po.VocPurchaseItem;
 import com.ruoyi.project.vocpurchase.mapper.VocPurchaseMapper;
 import com.ruoyi.project.vocpurchase.service.VocPurchaseItemService;
 import com.ruoyi.project.vocpurchase.service.VocPurchaseService;
+import com.ruoyi.project.vocstore.domain.dto.InsertVocStoreItemRequestDto;
+import com.ruoyi.project.vocstore.domain.dto.InsertVocStoreRequestDto;
 import com.ruoyi.project.vocstore.service.VocStoreService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -97,5 +101,40 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
         });
         vocPurchaseItemService.saveBatch(vocPurchaseItemList);
         return AjaxResult.success();
+    }
+
+    @Override
+    @Transactional
+    public AjaxResult storagePurchase(Long id)
+    {
+        VocPurchase vocPurchase = getById(id);
+        String purchaseStatus = vocPurchase.getPurchaseStatus();
+        if(purchaseStatus != VocPurchaseStatus.PLACED.getCode())
+        {
+            return AjaxResult.error("采购单不处于下单状态");
+        }
+        List<VocPurchaseItem> vocPurchaseItemList = vocPurchaseItemService.list(new QueryWrapper<VocPurchaseItem>()
+                .eq("purchase_id",id)
+                .eq("del_flag","0"));
+        if(CollectionUtils.isEmpty(vocPurchaseItemList))
+        {
+            log.info("采购商品信息列表为空");
+            return AjaxResult.error("未获取到采购商品信息");
+        }
+        InsertVocStoreRequestDto insertVocStoreRequestDto = new InsertVocStoreRequestDto();
+        List<InsertVocStoreItemRequestDto> insertVocStoreItemRequestDtoList = Lists.newArrayList();
+        //拼接入库信息
+        insertVocStoreRequestDto.setDeptId(vocPurchase.getDeptId());
+        insertVocStoreRequestDto.setStoreType(VocStoreType.PURCHASE_STORAGE.getCode());
+        //拼接入库商品信息
+        vocPurchaseItemList.forEach(vocPurchaseItem ->
+        {
+            InsertVocStoreItemRequestDto insertVocStoreItemRequestDto = new InsertVocStoreItemRequestDto();
+            insertVocStoreItemRequestDto.setProductId(vocPurchaseItem.getProductId());
+            insertVocStoreItemRequestDto.setAmount(vocPurchaseItem.getAmount());
+            insertVocStoreItemRequestDtoList.add(insertVocStoreItemRequestDto);
+        });
+        insertVocStoreRequestDto.setInsertVocStoreItemRequestList(insertVocStoreItemRequestDtoList);
+        return vocStoreService.insertVocStore(insertVocStoreRequestDto);
     }
 }

@@ -25,4 +25,11 @@ public interface VocPurchaseService extends IService<VocPurchase>
      * @return
      */
     AjaxResult updatePurchase(UpdateVocPurchaseRequestDto updateVocPurchaseRequestDto);
+
+    /**
+     * 采购入库
+     * @param id
+     * @return
+     */
+    AjaxResult storagePurchase(Long id);
 }
