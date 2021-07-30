@@ -9,8 +9,8 @@ import com.ruoyi.project.vocstore.domain.dto.InsertVocStoreItemRequestDto;
 import com.ruoyi.project.vocstore.domain.dto.InsertVocStoreRequestDto;
 import com.ruoyi.project.vocstore.domain.po.VocStore;
 import com.ruoyi.project.vocstore.domain.po.VocStoreItem;
-import com.ruoyi.project.vocstore.mapper.VocStoreItemMapper;
 import com.ruoyi.project.vocstore.mapper.VocStoreMapper;
+import com.ruoyi.project.vocstore.service.VocStoreItemService;
 import com.ruoyi.project.vocstore.service.VocStoreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -28,8 +28,9 @@ import java.util.List;
 @Service
 public class VocStoreServiceImpl extends ServiceImpl<VocStoreMapper,VocStore> implements VocStoreService
 {
+
     @Autowired
-    private VocStoreItemMapper vocStoreItemMapper;
+    private VocStoreItemService vocStoreItemService;
 
     @Autowired
     private VocInventoryService vocInventoryService;
@@ -58,7 +59,7 @@ public class VocStoreServiceImpl extends ServiceImpl<VocStoreMapper,VocStore> im
             BeanUtils.copyProperties(storeItemRequestDto,vocStoreItem);
             vocStoreItem.setStoreId(storeId);
             vocStoreItem.preInsert();
-            vocStoreItemMapper.insert(vocStoreItem);
+            vocStoreItemService.save(vocStoreItem);
             //库存信息保存
             PutVocInventoryRequestDto putVocInventoryRequestDto = new PutVocInventoryRequestDto();
             BeanUtils.copyProperties(storeItemRequestDto,putVocInventoryRequestDto);

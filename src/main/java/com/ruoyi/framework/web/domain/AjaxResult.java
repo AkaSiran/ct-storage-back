@@ -162,4 +162,31 @@ public class AjaxResult extends HashMap<String, Object>
     {
         return get("code").equals(200);
     }
+
+    /**
+     * 获取返回数据
+     * @return
+     */
+    public Object getData()
+    {
+        return get(DATA_TAG);
+    }
+
+    /**
+     * 获取返回码
+     * @return
+     */
+    public String getMsg()
+    {
+        return get(MSG_TAG) == null ? "" :get(MSG_TAG).toString();
+    }
+
+    /**
+     * 获取返回信息
+     * @return
+     */
+    public Integer getCode()
+    {
+        return Integer.parseInt(get(CODE_TAG).toString());
+    }
 }
