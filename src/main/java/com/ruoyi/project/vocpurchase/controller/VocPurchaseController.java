@@ -4,10 +4,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.TableDataInfo;
-import com.ruoyi.project.vocpurchase.domain.dto.DetailVocPurchaseResponseDto;
-import com.ruoyi.project.vocpurchase.domain.dto.InsertVocPurchaseRequestDto;
-import com.ruoyi.project.vocpurchase.domain.dto.SelectVocPurchaseRequestDto;
-import com.ruoyi.project.vocpurchase.domain.dto.UpdateVocPurchaseRequestDto;
+import com.ruoyi.project.vocpurchase.domain.dto.*;
 import com.ruoyi.project.vocpurchase.service.VocPurchaseService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,7 +94,7 @@ public class VocPurchaseController extends BaseController
             @ApiImplicitParam(value = "请求参数", dataTypeClass = SelectVocPurchaseRequestDto.class)
     })
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "请求成功", response = DetailVocPurchaseResponseDto.class)
+            @ApiResponse(code = 200, message = "请求成功", response = ListVocPurchaseResponseDto.class)
     })
     @ApiOperation(value = "采购分页列表", notes = "获取采购分页列表信息")
     @ApiOperationSupport(author = "Fyc")
@@ -105,7 +102,7 @@ public class VocPurchaseController extends BaseController
     public TableDataInfo purchasePage(SelectVocPurchaseRequestDto selectVocPurchaseRequestDto)
     {
         startPage();
-        List<DetailVocPurchaseResponseDto> list = vocPurchaseService.purchaseList(selectVocPurchaseRequestDto);
+        List<ListVocPurchaseResponseDto> list = vocPurchaseService.purchaseList(selectVocPurchaseRequestDto);
         return getDataTable(list);
     }
 

@@ -164,7 +164,7 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
     }
 
     @Override
-    public List<DetailVocPurchaseResponseDto> purchaseList(SelectVocPurchaseRequestDto selectVocPurchaseRequestDto)
+    public List<ListVocPurchaseResponseDto> purchaseList(SelectVocPurchaseRequestDto selectVocPurchaseRequestDto)
     {
         QueryWrapper<VocPurchase> queryWrapper = new QueryWrapper<VocPurchase>();
         Long deptId = selectVocPurchaseRequestDto.getDeptId();
@@ -176,14 +176,14 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
         if(StringUtils.isNotBlank(purchaseType)) queryWrapper.eq("puechase_type",purchaseType);
         if(StringUtils.isNotBlank(puechaseStatus)) queryWrapper.eq("puechase_status",puechaseStatus);
         List<VocPurchase> list = list(queryWrapper);
-        List<DetailVocPurchaseResponseDto> resultList = Lists.newArrayList();
+        List<ListVocPurchaseResponseDto> resultList = Lists.newArrayList();
         if(CollectionUtils.isNotEmpty(list))
         {
             list.forEach(vocPurchase ->
             {
-                DetailVocPurchaseResponseDto detailVocPurchaseResponseDto = new DetailVocPurchaseResponseDto();
-                BeanUtils.copyProperties(vocPurchase,detailVocPurchaseResponseDto);
-                resultList.add(detailVocPurchaseResponseDto);
+                ListVocPurchaseResponseDto listVocPurchaseResponseDto = new ListVocPurchaseResponseDto();
+                BeanUtils.copyProperties(vocPurchase,listVocPurchaseResponseDto);
+                resultList.add(listVocPurchaseResponseDto);
             });
         }
         return resultList;

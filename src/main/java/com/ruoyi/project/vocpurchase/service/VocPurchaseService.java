@@ -2,8 +2,8 @@ package com.ruoyi.project.vocpurchase.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.framework.web.domain.AjaxResult;
-import com.ruoyi.project.vocpurchase.domain.dto.DetailVocPurchaseResponseDto;
 import com.ruoyi.project.vocpurchase.domain.dto.InsertVocPurchaseRequestDto;
+import com.ruoyi.project.vocpurchase.domain.dto.ListVocPurchaseResponseDto;
 import com.ruoyi.project.vocpurchase.domain.dto.SelectVocPurchaseRequestDto;
 import com.ruoyi.project.vocpurchase.domain.dto.UpdateVocPurchaseRequestDto;
 import com.ruoyi.project.vocpurchase.domain.po.VocPurchase;
@@ -49,7 +49,7 @@ public interface VocPurchaseService extends IService<VocPurchase>
      * @param selectVocPurchaseRequestDto
      * @return
      */
-    List<DetailVocPurchaseResponseDto> purchaseList(SelectVocPurchaseRequestDto selectVocPurchaseRequestDto);
+    List<ListVocPurchaseResponseDto> purchaseList(SelectVocPurchaseRequestDto selectVocPurchaseRequestDto);
 
     /**
      * 删除采购信息
