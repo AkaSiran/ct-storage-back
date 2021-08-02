@@ -48,7 +48,7 @@ public class VocSupplierController extends BaseController
      */
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "修改供应商",notes = "根据主键修改供应商信息")
-    @PostMapping("/update")
+    @PatchMapping("/update")
     public AjaxResult updateSupplier(@RequestBody UpdateVocSupplierRequestDto updateVocSupplierRequestDto)
     {
         return vocSupplierService.updateSupplier(updateVocSupplierRequestDto);

@@ -7,10 +7,7 @@ import com.ruoyi.common.enums.voc.VocPurchaseStatus;
 import com.ruoyi.common.enums.voc.VocStoreType;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.web.domain.AjaxResult;
-import com.ruoyi.project.vocpurchase.domain.dto.InsertVocPurchaseItemRequestDto;
-import com.ruoyi.project.vocpurchase.domain.dto.InsertVocPurchaseRequestDto;
-import com.ruoyi.project.vocpurchase.domain.dto.UpdateVocPurchaseItemRequestDto;
-import com.ruoyi.project.vocpurchase.domain.dto.UpdateVocPurchaseRequestDto;
+import com.ruoyi.project.vocpurchase.domain.dto.*;
 import com.ruoyi.project.vocpurchase.domain.po.VocPurchase;
 import com.ruoyi.project.vocpurchase.domain.po.VocPurchaseItem;
 import com.ruoyi.project.vocpurchase.mapper.VocPurchaseMapper;
@@ -74,6 +71,7 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
     }
 
     @Override
+    @Transactional
     public AjaxResult updatePurchase(UpdateVocPurchaseRequestDto updateVocPurchaseRequestDto)
     {
         List<UpdateVocPurchaseItemRequestDto> updateVocPurchaseItemRequestDtoList = updateVocPurchaseRequestDto.getUpdateVocPurchaseItemRequestDtoList();
@@ -115,7 +113,8 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
         }
         List<VocPurchaseItem> vocPurchaseItemList = vocPurchaseItemService.list(new QueryWrapper<VocPurchaseItem>()
                 .eq("purchase_id",id)
-                .eq("del_flag","0"));
+                .eq("del_flag","0")
+                .orderByAsc("create_time"));
         if(CollectionUtils.isEmpty(vocPurchaseItemList))
         {
             log.info("采购商品信息列表为空");
@@ -136,5 +135,66 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
         });
         insertVocStoreRequestDto.setInsertVocStoreItemRequestList(insertVocStoreItemRequestDtoList);
         return vocStoreService.insertVocStore(insertVocStoreRequestDto);
+    }
+
+    @Override
+    public AjaxResult purchaseDetail(Long id)
+    {
+        //获取采购信息
+        VocPurchase vocPurchase = getById(id);
+        DetailVocPurchaseResponseDto detailVocPurchaseResponseDto = new DetailVocPurchaseResponseDto();
+        BeanUtils.copyProperties(vocPurchase,detailVocPurchaseResponseDto);
+        //获取采购商品信息
+        List<DetailVocPurchaseItemResponseDto> detailVocPurchaseItemResponseDtoList = Lists.newArrayList();
+        List<VocPurchaseItem> vocPurchaseItemList = vocPurchaseItemService.list(new QueryWrapper<VocPurchaseItem>()
+                .eq("purchase_id",id)
+                .eq("del_flag","0")
+                .orderByAsc("create_time"));
+        if(CollectionUtils.isNotEmpty(vocPurchaseItemList))
+        {
+            vocPurchaseItemList.forEach(vocPurchaseItem ->
+            {
+                DetailVocPurchaseItemResponseDto detailVocPurchaseItemResponseDto = new DetailVocPurchaseItemResponseDto();
+                BeanUtils.copyProperties(vocPurchaseItem,detailVocPurchaseItemResponseDto);
+                detailVocPurchaseItemResponseDtoList.add(detailVocPurchaseItemResponseDto);
+            });
+            detailVocPurchaseResponseDto.setDetailVocPurchaseItemResponseDtoList(detailVocPurchaseItemResponseDtoList);
+        }
+        return AjaxResult.success(detailVocPurchaseResponseDto);
+    }
+
+    @Override
+    public List<DetailVocPurchaseResponseDto> purchaseList(SelectVocPurchaseRequestDto selectVocPurchaseRequestDto)
+    {
+        QueryWrapper<VocPurchase> queryWrapper = new QueryWrapper<VocPurchase>();
+        Long deptId = selectVocPurchaseRequestDto.getDeptId();
+        Long supplierId = selectVocPurchaseRequestDto.getSupplierId();
+        String purchaseType = selectVocPurchaseRequestDto.getPurchaseType();
+        String puechaseStatus = selectVocPurchaseRequestDto.getPuechaseStatus();
+        if(StringUtils.isNotNull(deptId)) queryWrapper.eq("dept_id",deptId);
+        if(StringUtils.isNotNull(supplierId)) queryWrapper.eq("supplier_id",supplierId);
+        if(StringUtils.isNotBlank(purchaseType)) queryWrapper.eq("puechase_type",purchaseType);
+        if(StringUtils.isNotBlank(puechaseStatus)) queryWrapper.eq("puechase_status",puechaseStatus);
+        List<VocPurchase> list = list(queryWrapper);
+        List<DetailVocPurchaseResponseDto> resultList = Lists.newArrayList();
+        if(CollectionUtils.isNotEmpty(list))
+        {
+            list.forEach(vocPurchase ->
+            {
+                DetailVocPurchaseResponseDto detailVocPurchaseResponseDto = new DetailVocPurchaseResponseDto();
+                BeanUtils.copyProperties(vocPurchase,detailVocPurchaseResponseDto);
+                resultList.add(detailVocPurchaseResponseDto);
+            });
+        }
+        return resultList;
+    }
+
+    @Override
+    @Transactional
+    public AjaxResult deletePurchase(Long id)
+    {
+        removeById(id);
+        vocPurchaseItemService.remove(new QueryWrapper<VocPurchaseItem>().eq("purchase_id",id));
+        return AjaxResult.success();
     }
 }

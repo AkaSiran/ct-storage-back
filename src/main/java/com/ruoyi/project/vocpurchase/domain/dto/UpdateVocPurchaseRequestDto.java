@@ -35,9 +35,6 @@ public class UpdateVocPurchaseRequestDto extends BaseRequestDto
     @ApiModelProperty(value = "采购总价")
     private BigDecimal totalPrice;
 
-    @ApiModelProperty(value = "采购状态")
-    private String purchaseStatus;
-
     @ApiModelProperty(value = "采购商品信息列表")
     private List<UpdateVocPurchaseItemRequestDto> updateVocPurchaseItemRequestDtoList;
 }

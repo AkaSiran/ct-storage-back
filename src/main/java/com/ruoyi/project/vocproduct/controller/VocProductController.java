@@ -49,7 +49,7 @@ public class VocProductController extends BaseController
      */
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "修改商品", notes = "修改商品信息")
-    @PostMapping("/update")
+    @PatchMapping("/update")
     public AjaxResult updateProduct(@RequestBody UpdateVocProductRequestDto updateVocProductRequestDto)
     {
         return vocProductService.updateProduct(updateVocProductRequestDto);

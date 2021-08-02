@@ -3,16 +3,17 @@ package com.ruoyi.project.vocpurchase.controller;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
+import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.project.vocpurchase.domain.dto.DetailVocPurchaseResponseDto;
 import com.ruoyi.project.vocpurchase.domain.dto.InsertVocPurchaseRequestDto;
+import com.ruoyi.project.vocpurchase.domain.dto.SelectVocPurchaseRequestDto;
 import com.ruoyi.project.vocpurchase.domain.dto.UpdateVocPurchaseRequestDto;
 import com.ruoyi.project.vocpurchase.service.VocPurchaseService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created by Fyc on 2021-7-30.
@@ -46,9 +47,67 @@ public class VocPurchaseController extends BaseController
      */
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "修改采购信息", notes = "修改采购信息")
-    @PostMapping("/update")
+    @PatchMapping("/update")
     public AjaxResult updatePurchase(@RequestBody UpdateVocPurchaseRequestDto updateVocPurchaseRequestDto)
     {
         return vocPurchaseService.updatePurchase(updateVocPurchaseRequestDto);
     }
+
+    /**
+     * 采购入库
+     * @param id
+     * @return
+     */
+    @ApiOperationSupport(author = "Fyc")
+    @ApiOperation(value = "采购入库", notes = "采购订单入库")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "主键", required = true)
+    })
+    @GetMapping("/storage/{id}")
+    public AjaxResult storagePurchase(@PathVariable("id") Long id)
+    {
+        return vocPurchaseService.storagePurchase(id);
+    }
+
+    /**
+     * 获取采购详情
+     * @param id
+     * @return
+     */
+    @ApiOperationSupport(author = "Fyc")
+    @ApiOperation(value = "采购详情", notes = "根据主键获取采购详情")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "主键", required = true)
+    })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "请求成功", response = DetailVocPurchaseResponseDto.class)
+    })
+    @GetMapping("/detail/{id}")
+    public AjaxResult purchaseDetail(@PathVariable("id") Long id)
+    {
+        return vocPurchaseService.purchaseDetail(id);
+    }
+
+    /**
+     * 获取采购分页列表
+     * @param selectVocPurchaseRequestDto
+     * @return
+     */
+    @ApiImplicitParams({
+            @ApiImplicitParam(value = "请求参数", dataTypeClass = SelectVocPurchaseRequestDto.class)
+    })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "请求成功", response = DetailVocPurchaseResponseDto.class)
+    })
+    @ApiOperation(value = "采购分页列表", notes = "获取采购分页列表信息")
+    @ApiOperationSupport(author = "Fyc")
+    @GetMapping("/page")
+    public TableDataInfo purchasePage(SelectVocPurchaseRequestDto selectVocPurchaseRequestDto)
+    {
+        startPage();
+        List<DetailVocPurchaseResponseDto> list = vocPurchaseService.purchaseList(selectVocPurchaseRequestDto);
+        return getDataTable(list);
+    }
+
+
 }

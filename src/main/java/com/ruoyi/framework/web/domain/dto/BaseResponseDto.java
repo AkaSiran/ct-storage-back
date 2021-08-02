@@ -13,7 +13,7 @@ import java.util.Date;
  * 基础ResponseDto
  */
 @Data
-@ApiModel("回参信息")
+@ApiModel(value = "返回参数信息")
 public class BaseResponseDto implements Serializable
 {
 
