@@ -106,5 +106,14 @@ public class VocPurchaseController extends BaseController
         return getDataTable(list);
     }
 
-
+    @ApiOperation(value = "删除采购信息", notes = "根据主键删除采购信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "主键", required = true)
+    })
+    @ApiOperationSupport(author = "Fyc")
+    @DeleteMapping("/delete/{id}")
+    public AjaxResult deletePurchase(@PathVariable("id") Long id)
+    {
+        return vocPurchaseService.deletePurchase(id);
+    }
 }

@@ -88,7 +88,8 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
         //修改采购商品信息
         List<VocPurchaseItem> vocPurchaseItemList = Lists.newArrayList();
         Long purchaseId = vocPurchase.getId();
-        vocPurchaseItemService.remove(new QueryWrapper<VocPurchaseItem>().eq("purchase_id",purchaseId));
+        vocPurchaseItemService.remove(new QueryWrapper<VocPurchaseItem>()
+                .eq("purchase_id",purchaseId));
         updateVocPurchaseItemRequestDtoList.forEach(updateVocPurchaseItemRequestDto ->
         {
             VocPurchaseItem vocPurchaseItem = new VocPurchaseItem();
@@ -107,7 +108,7 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
     {
         VocPurchase vocPurchase = getById(id);
         String purchaseStatus = vocPurchase.getPurchaseStatus();
-        if(purchaseStatus != VocPurchaseStatus.PLACED.getCode())
+        if(!purchaseStatus.equals(VocPurchaseStatus.PLACED.getCode()))
         {
             return AjaxResult.error("采购单不处于下单状态");
         }
@@ -120,6 +121,7 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
             log.info("采购商品信息列表为空");
             return AjaxResult.error("未获取到采购商品信息");
         }
+        //商品入库
         InsertVocStoreRequestDto insertVocStoreRequestDto = new InsertVocStoreRequestDto();
         List<InsertVocStoreItemRequestDto> insertVocStoreItemRequestDtoList = Lists.newArrayList();
         //拼接入库信息
@@ -193,6 +195,13 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
     @Transactional
     public AjaxResult deletePurchase(Long id)
     {
+        VocPurchase vocPurchase = getById(id);
+        String purchaseStatus = vocPurchase.getPurchaseStatus();
+        if(purchaseStatus.equals(VocPurchaseStatus.STORAGE.getCode()))
+        {
+            log.info("采购单处于入库状态");
+            return AjaxResult.error("采购单处于入库状态,无法删除");
+        }
         removeById(id);
         vocPurchaseItemService.remove(new QueryWrapper<VocPurchaseItem>().eq("purchase_id",id));
         return AjaxResult.success();

@@ -104,7 +104,7 @@ public class VocSupplierController extends BaseController
             @ApiImplicitParam(name = "id", value = "主键", required = true)
     })
     @ApiOperationSupport(author = "Fyc")
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     public AjaxResult deleteSupplier(@PathVariable("id") Long id)
     {
         return toAjax(vocSupplierService.removeById(id));
