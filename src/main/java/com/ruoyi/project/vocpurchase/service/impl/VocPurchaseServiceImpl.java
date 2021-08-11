@@ -116,7 +116,8 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
         String purchaseStatus = vocPurchase.getPurchaseStatus();
         if(!purchaseStatus.equals(VocPurchaseStatus.PLACED.getCode()))
         {
-            return AjaxResult.error("采购单不处于下单状态");
+            log.info("当前采购单状态 = {}",VocPurchaseStatus.getStatusName(purchaseStatus));
+            return AjaxResult.error("该采购单不符合入库条件");
         }
         List<VocPurchaseItem> vocPurchaseItemList = vocPurchaseItemService.list(new QueryWrapper<VocPurchaseItem>()
                 .eq("purchase_id",id)

@@ -12,7 +12,9 @@ public enum VocAllotStatus
 
     ALLOT_STORAGE("003","调拨入库"),
 
-    ALLOT_BACK("004","调拨撤回");
+    ALLOT_BACK("004","调拨撤回"),
+
+    BACK_STORAGE("005","撤回入库");
 
     VocAllotStatus(String code, String info)
     {

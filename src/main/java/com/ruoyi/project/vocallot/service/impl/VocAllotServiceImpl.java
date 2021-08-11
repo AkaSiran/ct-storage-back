@@ -3,6 +3,7 @@ package com.ruoyi.project.vocallot.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
+import com.ruoyi.common.enums.voc.VocAllotStatus;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.vocallot.domain.dto.InsertVocAllotItemRequestDto;
@@ -57,6 +58,7 @@ public class VocAllotServiceImpl extends ServiceImpl<VocAllotMapper,VocAllot> im
         VocAllot vocAllot = new VocAllot();
         BeanUtils.copyProperties(insertVocAllotRequestDto,vocAllot);
         vocAllot.setOperateDeptId(SecurityUtils.getDeptId());
+        vocAllot.setAllotStatus(VocAllotStatus.ALLOT_DELIVER.getCode());
         vocAllot.preInsert();
         save(vocAllot);
         //保存调拨商品信息
@@ -91,6 +93,7 @@ public class VocAllotServiceImpl extends ServiceImpl<VocAllotMapper,VocAllot> im
         VocAllot vocAllot = new VocAllot();
         BeanUtils.copyProperties(updateVocAllotRequestDto,vocAllot);
         vocAllot.setOperateDeptId(SecurityUtils.getDeptId());
+        vocAllot.setAllotStatus(VocAllotStatus.ALLOT_DELIVER.getCode());
         vocAllot.preUpdate();
         updateById(vocAllot);
         //修改调拨商品信息

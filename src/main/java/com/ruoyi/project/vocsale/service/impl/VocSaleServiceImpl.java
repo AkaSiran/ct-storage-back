@@ -118,8 +118,8 @@ public class VocSaleServiceImpl extends ServiceImpl<VocSaleMapper,VocSale> imple
         String saleStatus = vocSale.getSaleStatus();
         if(saleStatus.equals(VocSaleStatus.PLACED.getCode()) )
         {
-            return AjaxResult.error("销售单不处于下单状态");
-
+            log.info("当前销售单状态 = {}",VocSaleStatus.getStatusName(saleStatus));
+            return AjaxResult.error("该销售单不符合出库条件");
         }
         List<VocSaleItem> vocSaleItemList = vocSaleItemService.list(new QueryWrapper<VocSaleItem>()
                 .eq("sale_id",id)
