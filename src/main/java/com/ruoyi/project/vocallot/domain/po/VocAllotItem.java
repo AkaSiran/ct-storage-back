@@ -21,4 +21,7 @@ public class VocAllotItem extends BasePo
 
     /**商品数量*/
     private int amount;
+
+    /**排序*/
+    private int sort;
 }

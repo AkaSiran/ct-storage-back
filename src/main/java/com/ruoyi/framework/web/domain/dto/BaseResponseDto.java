@@ -16,7 +16,6 @@ import java.util.Date;
 @ApiModel(value = "返回参数信息")
 public class BaseResponseDto implements Serializable
 {
-
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "主键")

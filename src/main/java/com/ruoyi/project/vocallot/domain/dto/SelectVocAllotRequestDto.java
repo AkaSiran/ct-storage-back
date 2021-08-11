@@ -5,29 +5,22 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.util.List;
-
 /**
- * Created by Fyc on 2021-8-3.
- * 修改调拨信息
+ * Created by Fyc on 2021-8-11.
  */
 @Data
-@ApiModel(value = "修改调拨信息")
-public class UpdateVocAllotRequestDto extends BaseRequestDto
+@ApiModel(value = "调拨信息")
+public class SelectVocAllotRequestDto extends BaseRequestDto
 {
-
     @ApiModelProperty(value = "发货部门标识")
     private Long fromDeptId;
 
     @ApiModelProperty(value = "收货部门标识")
     private Long toDeptId;
 
-    @ApiModelProperty(value = "调拨总数")
-    private int totalAmount;
-
     @ApiModelProperty(value = "调拨类型")
     private String allotType;
 
-    @ApiModelProperty(value = "调拨商品信息")
-    private List<UpdateVocAllotItemRequestDto> updateVocAllotItemRequestDtoList;
+    @ApiModelProperty(value = "调拨状态")
+    private String allotStatus;
 }

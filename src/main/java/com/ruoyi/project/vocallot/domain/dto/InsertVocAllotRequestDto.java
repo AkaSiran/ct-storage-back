@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * Created by Fyc on 2021-8-3.
  * 新增调拨信息
@@ -24,4 +26,7 @@ public class InsertVocAllotRequestDto extends BaseRequestDto
 
     @ApiModelProperty(value = "调拨类型")
     private String allotType;
+
+    @ApiModelProperty(value = "调拨商品信息")
+    private List<InsertVocAllotItemRequestDto> insertVocAllotItemRequestDtoList;
 }
