@@ -58,14 +58,17 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
         //保存采购商品信息
         List<VocPurchaseItem> vocPurchaseItemList = Lists.newArrayList();
         Long purchaseId = vocPurchase.getId();
-        insertVocPurchaseItemRequestDtoList.forEach(insertVocPurchaseItemRequestDto ->
+        int sort = 0;
+        for(InsertVocPurchaseItemRequestDto insertVocPurchaseItemRequestDto : insertVocPurchaseItemRequestDtoList)
         {
             VocPurchaseItem vocPurchaseItem = new VocPurchaseItem();
             BeanUtils.copyProperties(insertVocPurchaseItemRequestDto,vocPurchaseItem);
             vocPurchaseItem.setPurchaseId(purchaseId);
+            vocPurchaseItem.setSort(sort);
             vocPurchaseItem.preInsert();
             vocPurchaseItemList.add(vocPurchaseItem);
-        });
+            sort++;
+        }
         vocPurchaseItemService.saveBatch(vocPurchaseItemList);
         return AjaxResult.success();
     }
@@ -90,14 +93,17 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
         Long purchaseId = vocPurchase.getId();
         vocPurchaseItemService.remove(new QueryWrapper<VocPurchaseItem>()
                 .eq("purchase_id",purchaseId));
-        updateVocPurchaseItemRequestDtoList.forEach(updateVocPurchaseItemRequestDto ->
+        int sort = 0;
+        for(UpdateVocPurchaseItemRequestDto updateVocPurchaseItemRequestDto : updateVocPurchaseItemRequestDtoList)
         {
             VocPurchaseItem vocPurchaseItem = new VocPurchaseItem();
             BeanUtils.copyProperties(updateVocPurchaseItemRequestDto,vocPurchaseItem);
             vocPurchaseItem.setPurchaseId(purchaseId);
+            vocPurchaseItem.setSort(sort);
             vocPurchaseItem.preInsert();
             vocPurchaseItemList.add(vocPurchaseItem);
-        });
+            sort++;
+        }
         vocPurchaseItemService.saveBatch(vocPurchaseItemList);
         return AjaxResult.success();
     }

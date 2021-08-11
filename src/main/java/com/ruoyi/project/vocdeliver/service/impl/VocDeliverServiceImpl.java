@@ -8,8 +8,8 @@ import com.ruoyi.project.vocdeliver.domain.dto.InsertVocDeliverItemRequestDto;
 import com.ruoyi.project.vocdeliver.domain.dto.InsertVocDeliverRequestDto;
 import com.ruoyi.project.vocdeliver.domain.po.VocDeliver;
 import com.ruoyi.project.vocdeliver.domain.po.VocDeliverItem;
-import com.ruoyi.project.vocdeliver.mapper.VocDeliverItemMapper;
 import com.ruoyi.project.vocdeliver.mapper.VocDeliverMapper;
+import com.ruoyi.project.vocdeliver.service.VocDeliverItemService;
 import com.ruoyi.project.vocdeliver.service.VocDeliverService;
 import com.ruoyi.project.vocinventory.domain.dto.TakeVocInventoryRequestDto;
 import com.ruoyi.project.vocinventory.service.VocInventoryService;
@@ -31,10 +31,10 @@ public class VocDeliverServiceImpl extends ServiceImpl<VocDeliverMapper,VocDeliv
 {
 
     @Autowired
-    private VocDeliverItemMapper vocDeliverItemMapper;
+    private VocInventoryService vocInventoryService;
 
     @Autowired
-    private VocInventoryService vocInventoryService;
+    private VocDeliverItemService vocDeliverItemService;
 
     @Override
     @Transactional
@@ -54,13 +54,16 @@ public class VocDeliverServiceImpl extends ServiceImpl<VocDeliverMapper,VocDeliv
         save(vocDeliver);
         //出库商品信息保存
         Long deliverId = vocDeliver.getId();
-        deliverItemRequestDtoList.forEach(deliverItemRequestDto ->
+        int sort = 0;
+        for(InsertVocDeliverItemRequestDto deliverItemRequestDto : deliverItemRequestDtoList)
         {
             VocDeliverItem vocDeliverItem = new VocDeliverItem();
             BeanUtils.copyProperties(deliverItemRequestDto,vocDeliverItem);
             vocDeliverItem.setDeliverId(deliverId);
             vocDeliverItem.preInsert();
-            vocDeliverItemMapper.insert(vocDeliverItem);
+            vocDeliverItem.setSort(sort);
+            sort++;
+            vocDeliverItemService.save(vocDeliverItem);
             //库存信息保存
             TakeVocInventoryRequestDto takeVocInventoryRequestDto = new TakeVocInventoryRequestDto();
             BeanUtils.copyProperties(deliverItemRequestDto,takeVocInventoryRequestDto);
@@ -71,7 +74,7 @@ public class VocDeliverServiceImpl extends ServiceImpl<VocDeliverMapper,VocDeliv
                 log.info("出库失败");
                 throw new CustomException("出库失败");
             }
-        });
+        }
         return AjaxResult.success();
     }
 }

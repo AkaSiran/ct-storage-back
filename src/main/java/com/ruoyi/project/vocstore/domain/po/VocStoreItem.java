@@ -20,4 +20,7 @@ public class VocStoreItem extends BasePo
 
     /**商品数量*/
     private int amount;
+
+    /**商品排序*/
+    private int sort;
 }

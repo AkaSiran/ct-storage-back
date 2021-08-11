@@ -28,4 +28,7 @@ public class VocPurchaseItem extends BasePo
 
     /**商品总价*/
     private BigDecimal totalPrice;
+
+    /**商品排序*/
+    private int sort;
 }

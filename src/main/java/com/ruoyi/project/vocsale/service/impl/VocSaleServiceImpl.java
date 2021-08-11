@@ -59,14 +59,17 @@ public class VocSaleServiceImpl extends ServiceImpl<VocSaleMapper,VocSale> imple
         //保存销售商品信息
         List<VocSaleItem> vocSaleItemList = Lists.newArrayList();
         Long saleId = vocSale.getId();
-        insertVocSaleItemRequestDtoList.forEach(insertVocSaleItemRequestDto ->
+        int sort = 0;
+        for(InsertVocSaleItemRequestDto insertVocSaleItemRequestDto : insertVocSaleItemRequestDtoList)
         {
             VocSaleItem vocSaleItem = new VocSaleItem();
             BeanUtils.copyProperties(insertVocSaleItemRequestDto,vocSaleItem);
             vocSaleItem.setSaleId(saleId);
+            vocSaleItem.setSort(sort);
             vocSaleItem.preInsert();
             vocSaleItemList.add(vocSaleItem);
-        });
+            sort++;
+        }
         vocSaleItemService.saveBatch(vocSaleItemList);
         return AjaxResult.success();
     }
@@ -92,14 +95,17 @@ public class VocSaleServiceImpl extends ServiceImpl<VocSaleMapper,VocSale> imple
         Long saleId = vocSale.getId();
         vocSaleItemService.remove(new QueryWrapper<VocSaleItem>()
                 .eq("sale_id",saleId));
-        updateVocSaleItemRequestDtoList.forEach(updateVocSaleItemRequestDto ->
+        int sort = 0;
+        for(UpdateVocSaleItemRequestDto updateVocSaleItemRequestDto : updateVocSaleItemRequestDtoList)
         {
             VocSaleItem vocSaleItem = new VocSaleItem();
             BeanUtils.copyProperties(updateVocSaleItemRequestDto,vocSaleItem);
             vocSaleItem.setSaleId(saleId);
+            vocSaleItem.setSort(sort);
             vocSaleItem.preInsert();
             vocSaleItemList.add(vocSaleItem);
-        });
+            sort++;
+        }
         vocSaleItemService.saveBatch(vocSaleItemList);
         return AjaxResult.success();
     }

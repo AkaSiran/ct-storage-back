@@ -53,19 +53,22 @@ public class VocStoreServiceImpl extends ServiceImpl<VocStoreMapper,VocStore> im
         save(vocStore);
         //入库商品信息保存
         Long storeId = vocStore.getId();
-        storeItemRequestDtoList.forEach(storeItemRequestDto ->
+        int sort = 0;
+        for(InsertVocStoreItemRequestDto storeItemRequestDto : storeItemRequestDtoList)
         {
             VocStoreItem vocStoreItem = new VocStoreItem();
             BeanUtils.copyProperties(storeItemRequestDto,vocStoreItem);
             vocStoreItem.setStoreId(storeId);
             vocStoreItem.preInsert();
+            vocStoreItem.setSort(sort);
             vocStoreItemService.save(vocStoreItem);
+            sort++;
             //库存信息保存
             PutVocInventoryRequestDto putVocInventoryRequestDto = new PutVocInventoryRequestDto();
             BeanUtils.copyProperties(storeItemRequestDto,putVocInventoryRequestDto);
             putVocInventoryRequestDto.setDeptId(deptId);
             vocInventoryService.putVocInventory(putVocInventoryRequestDto);
-        });
+        }
         return AjaxResult.success();
     }
 }
