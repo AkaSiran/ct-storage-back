@@ -30,4 +30,6 @@ public class DetailVocPurchaseItemResponseDto extends BaseResponseDto
     @ApiModelProperty(value = "商品总价")
     private BigDecimal totalPrice;
 
+    @ApiModelProperty(value = "排序")
+    private int sort;
 }

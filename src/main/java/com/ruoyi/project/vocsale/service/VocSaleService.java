@@ -49,7 +49,7 @@ public interface VocSaleService extends IService<VocSale>
      * @param id
      * @return
      */
-    AjaxResult deleteDetail(Long id);
+    AjaxResult deleteSale(Long id);
 
     /**
      * 获取销售信息列表

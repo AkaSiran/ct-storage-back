@@ -176,7 +176,7 @@ public class VocSaleServiceImpl extends ServiceImpl<VocSaleMapper,VocSale> imple
 
     @Override
     @Transactional
-    public AjaxResult deleteDetail(Long id)
+    public AjaxResult deleteSale(Long id)
     {
         VocSale vocSale = getById(id);
         String saleStatus = vocSale.getSaleStatus();
