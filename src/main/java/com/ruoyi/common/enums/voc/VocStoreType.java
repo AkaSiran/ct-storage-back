@@ -8,8 +8,9 @@ public enum VocStoreType
 {
     PURCHASE_STORAGE("001","采购入库"),
 
-    ALLOT_STORAGE("002","调拨入库");
+    ALLOT_STORAGE("002","调拨入库"),
 
+    BACK_STORAGE("003","撤回入库");
 
     VocStoreType(String code, String info)
     {

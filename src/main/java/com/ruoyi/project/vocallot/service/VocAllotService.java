@@ -25,4 +25,18 @@ public interface VocAllotService extends IService<VocAllot>
      * @return
      */
     AjaxResult updateAllot(UpdateVocAllotRequestDto updateVocAllotRequestDto);
+
+    /**
+     * 调拨入库
+     * @param allotId
+     * @return
+     */
+    AjaxResult storageAllot(Long allotId);
+
+    /**
+     * 调拨出库
+     * @param allotId
+     * @return
+     */
+    AjaxResult deliverAllot(Long allotId);
 }

@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.ruoyi.common.enums.voc.VocAllotStatus;
+import com.ruoyi.common.enums.voc.VocDeliverType;
+import com.ruoyi.common.enums.voc.VocStoreType;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.vocallot.domain.dto.InsertVocAllotItemRequestDto;
@@ -15,7 +17,11 @@ import com.ruoyi.project.vocallot.domain.po.VocAllotItem;
 import com.ruoyi.project.vocallot.mapper.VocAllotMapper;
 import com.ruoyi.project.vocallot.service.VocAllotItemService;
 import com.ruoyi.project.vocallot.service.VocAllotService;
+import com.ruoyi.project.vocdeliver.domain.dto.InsertVocDeliverItemRequestDto;
+import com.ruoyi.project.vocdeliver.domain.dto.InsertVocDeliverRequestDto;
 import com.ruoyi.project.vocdeliver.service.VocDeliverService;
+import com.ruoyi.project.vocstore.domain.dto.InsertVocStoreItemRequestDto;
+import com.ruoyi.project.vocstore.domain.dto.InsertVocStoreRequestDto;
 import com.ruoyi.project.vocstore.service.VocStoreService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -114,5 +120,113 @@ public class VocAllotServiceImpl extends ServiceImpl<VocAllotMapper,VocAllot> im
         }
         vocAllotItemService.saveBatch(vocAllotItemList);
         return AjaxResult.success();
+    }
+
+    @Override
+    @Transactional
+    public AjaxResult storageAllot(Long allotId)
+    {
+        VocAllot vocAllot = getById(allotId);
+        String allotStatus = vocAllot.getAllotStatus();
+        if(!allotStatus.equals(VocAllotStatus.ALLOT_INTRANSIT.getCode()) || !allotStatus.equals(VocAllotStatus.ALLOT_BACK.getCode()))
+        {
+            log.info("当前调拨单状态 = {}",VocAllotStatus.getAllotName(allotStatus));
+            return AjaxResult.error("该调拨单不符合入库条件");
+        }
+        //调拨入库
+        if(allotStatus.equals(VocAllotStatus.ALLOT_INTRANSIT.getCode()))
+        {
+            //修改调拨单信息
+            VocAllot newAllot = new VocAllot();
+            newAllot.setId(vocAllot.getId());
+            newAllot.setAllotStatus(VocAllotStatus.ALLOT_STORAGE.getCode());
+            updateById(newAllot);
+            //新增入库商品信息
+            List<InsertVocStoreItemRequestDto> insertVocStoreItemRequestDtoList = Lists.newArrayList();
+            List<VocAllotItem> vocAllotItemList = vocAllotItemService.list(new QueryWrapper<VocAllotItem>()
+                    .eq("allot_id",allotId)
+                    .eq("del_flag","0"));
+            for(VocAllotItem vocAllotItem : vocAllotItemList)
+            {
+                InsertVocStoreItemRequestDto insertVocStoreItemRequestDto = new InsertVocStoreItemRequestDto();
+                Long productId = vocAllotItem.getProductId();
+                int amount = vocAllotItem.getAmount();
+                insertVocStoreItemRequestDto.setProductId(productId);
+                insertVocStoreItemRequestDto.setAmount(amount);
+                insertVocStoreItemRequestDtoList.add(insertVocStoreItemRequestDto);
+            }
+            //新增入库信息
+            InsertVocStoreRequestDto insertVocStoreRequestDto = new InsertVocStoreRequestDto();
+            Long toDeptId = vocAllot.getToDeptId();
+            insertVocStoreRequestDto.setDeptId(toDeptId);
+            insertVocStoreRequestDto.setStoreType(VocStoreType.ALLOT_STORAGE.getCode());
+            insertVocStoreRequestDto.setInsertVocStoreItemRequestList(insertVocStoreItemRequestDtoList);
+            return vocStoreService.insertVocStore(insertVocStoreRequestDto);
+        }
+        //撤回入库
+        if(allotStatus.equals(VocAllotStatus.ALLOT_BACK.getCode()))
+        {
+            //修改调拨单信息
+            VocAllot newAllot = new VocAllot();
+            newAllot.setId(vocAllot.getId());
+            newAllot.setAllotStatus(VocAllotStatus.BACK_STORAGE.getCode());
+            updateById(newAllot);
+            //新增入库商品信息
+            List<InsertVocStoreItemRequestDto> insertVocStoreItemRequestDtoList = Lists.newArrayList();
+            List<VocAllotItem> vocAllotItemList = vocAllotItemService.list(new QueryWrapper<VocAllotItem>()
+                    .eq("allot_id",allotId)
+                    .eq("del_flag","0"));
+            for(VocAllotItem vocAllotItem : vocAllotItemList)
+            {
+                InsertVocStoreItemRequestDto insertVocStoreItemRequestDto = new InsertVocStoreItemRequestDto();
+                Long productId = vocAllotItem.getProductId();
+                int amount = vocAllotItem.getAmount();
+                insertVocStoreItemRequestDto.setProductId(productId);
+                insertVocStoreItemRequestDto.setAmount(amount);
+                insertVocStoreItemRequestDtoList.add(insertVocStoreItemRequestDto);
+            }
+            //新增入库信息
+            InsertVocStoreRequestDto insertVocStoreRequestDto = new InsertVocStoreRequestDto();
+            Long fromDeptId = vocAllot.getFromDeptId();
+            insertVocStoreRequestDto.setDeptId(fromDeptId);
+            insertVocStoreRequestDto.setStoreType(VocStoreType.ALLOT_STORAGE.getCode());
+            insertVocStoreRequestDto.setInsertVocStoreItemRequestList(insertVocStoreItemRequestDtoList);
+            return vocStoreService.insertVocStore(insertVocStoreRequestDto);
+        }
+        return AjaxResult.success();
+    }
+
+    @Override
+    @Transactional
+    public AjaxResult deliverAllot(Long allotId)
+    {
+        VocAllot vocAllot = getById(allotId);
+        String allotStatus = vocAllot.getAllotStatus();
+        if(!allotStatus.equals(VocAllotStatus.ALLOT_DELIVER.getCode()))
+        {
+            log.info("当前调拨单状态 = {}",VocAllotStatus.getAllotName(allotStatus));
+            return AjaxResult.error("该调拨单不符合出库条件");
+        }
+        //新增出库商品信息
+        List<InsertVocDeliverItemRequestDto> insertVocDeliverItemRequestDtoList = Lists.newArrayList();
+        List<VocAllotItem> vocAllotItemList = vocAllotItemService.list(new QueryWrapper<VocAllotItem>()
+                .eq("allot_id",allotId)
+                .eq("del_flag","0"));
+        for(VocAllotItem vocAllotItem : vocAllotItemList)
+        {
+            InsertVocDeliverItemRequestDto insertVocDeliverItemRequestDto = new InsertVocDeliverItemRequestDto();
+            Long productId = vocAllotItem.getProductId();
+            int amount = vocAllotItem.getAmount();
+            insertVocDeliverItemRequestDto.setProductId(productId);
+            insertVocDeliverItemRequestDto.setAmount(amount);
+            insertVocDeliverItemRequestDtoList.add(insertVocDeliverItemRequestDto);
+        }
+        //新增出库信息
+        InsertVocDeliverRequestDto insertVocDeliverRequestDto = new InsertVocDeliverRequestDto();
+        Long fromDeptId = vocAllot.getFromDeptId();
+        insertVocDeliverRequestDto.setDeliverType(VocDeliverType.PURCHASE_DELIVER.getCode());
+        insertVocDeliverRequestDto.setDeptId(fromDeptId);
+        insertVocDeliverRequestDto.setInsertVocDeliverItemRequestDtoList(insertVocDeliverItemRequestDtoList);
+        return vocDeliverService.insertVocDeliver(insertVocDeliverRequestDto);
     }
 }
