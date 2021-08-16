@@ -11,6 +11,7 @@ import com.ruoyi.project.vocsupplier.domain.dto.UpdateVocSupplierRequestDto;
 import com.ruoyi.project.vocsupplier.service.VocSupplierService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
  * 供应商
  */
 @Api(tags = "供应商管理")
-@RequestMapping("/voc/supplier")
+@RequestMapping("/base/supplier")
 @RestController
 public class VocSupplierController extends BaseController
 {
@@ -33,6 +34,7 @@ public class VocSupplierController extends BaseController
      * @param insertVocSupplierRequestDto
      * @return
      */
+    @PreAuthorize("@ss.hasPermi('base:supplier:insert')")
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "新增供应商", notes = "添加供应商信息")
     @PostMapping("/insert")
@@ -46,6 +48,7 @@ public class VocSupplierController extends BaseController
      * @param updateVocSupplierRequestDto
      * @return
      */
+    @PreAuthorize("@ss.hasPermi('base:supplier:update')")
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "修改供应商",notes = "根据主键修改供应商信息")
     @PatchMapping("/update")
@@ -59,6 +62,7 @@ public class VocSupplierController extends BaseController
      * @param id
      * @return
      */
+    @PreAuthorize("@ss.hasPermi('base:supplier:detail')")
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "供应商详情", notes = "根据主键获取供应商详情")
     @ApiImplicitParams({
@@ -78,6 +82,7 @@ public class VocSupplierController extends BaseController
      * @param selectVocSupplierRequestDto
      * @return
      */
+    @PreAuthorize("@ss.hasPermi('base:supplier:page')")
     @ApiImplicitParams({
             @ApiImplicitParam(value = "请求参数", dataTypeClass = SelectVocSupplierRequestDto.class)
     })
@@ -99,6 +104,7 @@ public class VocSupplierController extends BaseController
      * @param id
      * @return
      */
+    @PreAuthorize("@ss.hasPermi('base:supplier:delete')")
     @ApiOperation(value = "删除供应商", notes = "根据主键删除供应商信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "主键", required = true)

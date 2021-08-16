@@ -3,7 +3,9 @@ package com.ruoyi.project.vocproduct.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
+import com.ruoyi.common.enums.voc.VocNoPrefix;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.voc.NoUtils;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.vocproduct.domain.dto.InsertVocProductRequestDto;
 import com.ruoyi.project.vocproduct.domain.dto.SelectVocProductRequestDto;
@@ -31,6 +33,7 @@ public class VocProductServiceImpl extends ServiceImpl<VocProductMapper,VocProdu
     {
         VocProduct vocProduct = new VocProduct();
         BeanUtils.copyProperties(insertVocProductRequestDto,vocProduct);
+        vocProduct.setNo(NoUtils.generateNo(VocNoPrefix.PRODUCT.getCode()));
         vocProduct.preInsert();
         save(vocProduct);
         return AjaxResult.success();
@@ -53,6 +56,12 @@ public class VocProductServiceImpl extends ServiceImpl<VocProductMapper,VocProdu
         SelectVocProductResponseDto selectVocProductResponseDto = new SelectVocProductResponseDto();
         BeanUtils.copyProperties(vocProduct,selectVocProductResponseDto);
         return AjaxResult.success(selectVocProductResponseDto);
+    }
+
+    @Override
+    public AjaxResult deleteProduct(Long id)
+    {
+        return null;
     }
 
     @Override

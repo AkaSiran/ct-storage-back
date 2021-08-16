@@ -1,7 +1,7 @@
 package com.ruoyi.project.vocdeliver.domain.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ruoyi.framework.web.domain.po.BasePo;
+import com.ruoyi.framework.web.domain.po.BasePoWithoutLogic;
 import lombok.Data;
 
 /**
@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 @TableName("voc_deliver_item")
-public class VocDeliverItem extends BasePo
+public class VocDeliverItem extends BasePoWithoutLogic
 {
     /**出库标识*/
     private Long deliverId;

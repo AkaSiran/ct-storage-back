@@ -8,11 +8,13 @@ import com.ruoyi.project.vocproduct.domain.dto.InsertVocProductRequestDto;
 import com.ruoyi.project.vocproduct.domain.dto.SelectVocProductRequestDto;
 import com.ruoyi.project.vocproduct.domain.dto.SelectVocProductResponseDto;
 import com.ruoyi.project.vocproduct.domain.dto.UpdateVocProductRequestDto;
+import com.ruoyi.project.vocproduct.mapper.VocProductMapper;
 import com.ruoyi.project.vocproduct.service.VocProductService;
 import com.ruoyi.project.vocsupplier.domain.dto.SelectVocSupplierRequestDto;
 import com.ruoyi.project.vocsupplier.domain.dto.SelectVocSupplierResponseDto;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,17 +25,21 @@ import java.util.List;
  */
 @Api(tags = "商品管理")
 @RestController
-@RequestMapping("/voc/product")
+@RequestMapping("/base/product")
 public class VocProductController extends BaseController
 {
     @Autowired
     private VocProductService vocProductService;
+
+    @Autowired
+    private VocProductMapper vocProductMapper;
 
     /**
      * 新增商品
      * @param insertVocProductRequestDto
      * @return
      */
+    @PreAuthorize("@ss.hasPermi('base:product:insert')")
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "新增商品", notes = "添加商品信息")
     @PostMapping("/insert")
@@ -47,9 +53,10 @@ public class VocProductController extends BaseController
      * @param updateVocProductRequestDto
      * @return
      */
+    @PreAuthorize("@ss.hasPermi('base:product:update')")
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "修改商品", notes = "修改商品信息")
-    @PatchMapping("/update")
+    @PutMapping("/update")
     public AjaxResult updateProduct(@RequestBody UpdateVocProductRequestDto updateVocProductRequestDto)
     {
         return vocProductService.updateProduct(updateVocProductRequestDto);
@@ -60,6 +67,7 @@ public class VocProductController extends BaseController
      * @param id
      * @return
      */
+    @PreAuthorize("@ss.hasPermi('base:product:detail')")
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "商品详情", notes = "根据主键获取商品详情")
     @ApiImplicitParams({
@@ -79,6 +87,7 @@ public class VocProductController extends BaseController
      * @param selectVocProductRequestDto
      * @return
      */
+    @PreAuthorize("@ss.hasPermi('base:product:page')")
     @ApiImplicitParams({
             @ApiImplicitParam(value = "请求参数", dataTypeClass = SelectVocSupplierRequestDto.class)
     })
@@ -100,6 +109,7 @@ public class VocProductController extends BaseController
      * @param id
      * @return
      */
+    @PreAuthorize("@ss.hasPermi('base:product:delete')")
     @ApiOperation(value = "删除商品", notes = "根据主键删除商品信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "主键", required = true)

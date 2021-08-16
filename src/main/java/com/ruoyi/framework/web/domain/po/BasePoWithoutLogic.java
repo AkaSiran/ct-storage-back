@@ -1,32 +1,20 @@
 package com.ruoyi.framework.web.domain.po;
 
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.SecurityUtils;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by Fyc on 2021-7-23.
- * 基础PO
+ * Created by Fyc  on 2021-8-16.
  */
 @Data
-public class BasePo implements Serializable
+public class BasePoWithoutLogic implements Serializable
 {
-    private static final long serialVersionUID = 1L;
-
-    /**正常*/
-    private static final String DELETE_NORMAL_FLAG = "0";
-
-    /**删除*/
-    private static final String DELETE_CANCEL_FLAG = "1";
-
-    /**冻结*/
-    private static final String DELERE_FREEZE_FLAG = "2";
-
     /**主键*/
     @TableId
     private Long id;
@@ -48,22 +36,15 @@ public class BasePo implements Serializable
     /**备注信息*/
     private String remarks;
 
-    /**删除标志*/
-    @TableLogic
-    private String delFlag;
-
     /**
      * 新增初始化,需手动调用
      */
     public void preInsert()
     {
-//        this.createBy = SecurityUtils.getUserId();
-//        this.updateBy = SecurityUtils.getUserId();
-        this.createBy = 1L;
-        this.updateBy = 1L;
+        this.createBy = SecurityUtils.getUserId();
+        this.updateBy = SecurityUtils.getUserId();
         this.createTime = DateUtils.getNowDate();
         this.updateTime = DateUtils.getNowDate();
-        this.delFlag = DELETE_NORMAL_FLAG;
     }
 
     /**
@@ -71,8 +52,7 @@ public class BasePo implements Serializable
      */
     public void preUpdate()
     {
-//        this.updateBy = SecurityUtils.getUserId();
-        this.updateBy = 1L;
+        this.updateBy = SecurityUtils.getUserId();
         this.updateTime = DateUtils.getNowDate();
     }
 }

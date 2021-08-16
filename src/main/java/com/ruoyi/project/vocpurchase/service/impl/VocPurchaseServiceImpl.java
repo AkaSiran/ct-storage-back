@@ -204,10 +204,10 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
     {
         VocPurchase vocPurchase = getById(id);
         String purchaseStatus = vocPurchase.getPurchaseStatus();
-        if(purchaseStatus.equals(VocPurchaseStatus.STORAGE.getCode()))
+        if(!purchaseStatus.equals(VocPurchaseStatus.PLACED.getCode()))
         {
-            log.info("采购单处于入库状态");
-            return AjaxResult.error("采购单处于入库状态,无法删除");
+            log.info("当前采购单状态 = {}",VocPurchaseStatus.getStatusName(purchaseStatus));
+            return AjaxResult.error("该采购单不符合删除条件");
         }
         removeById(id);
         vocPurchaseItemService.remove(new QueryWrapper<VocPurchaseItem>().eq("purchase_id",id));

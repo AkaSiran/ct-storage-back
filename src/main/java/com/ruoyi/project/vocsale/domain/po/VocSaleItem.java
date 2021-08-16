@@ -1,7 +1,7 @@
 package com.ruoyi.project.vocsale.domain.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ruoyi.framework.web.domain.po.BasePo;
+import com.ruoyi.framework.web.domain.po.BasePoWithoutLogic;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  */
 @Data
 @TableName("voc_sale_item")
-public class VocSaleItem extends BasePo
+public class VocSaleItem extends BasePoWithoutLogic
 {
     /**销售标识*/
     private Long saleId;

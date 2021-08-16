@@ -39,4 +39,11 @@ public interface VocAllotService extends IService<VocAllot>
      * @return
      */
     AjaxResult deliverAllot(Long allotId);
+
+    /**
+     * 删除调拨信息
+     * @param allotId
+     * @return
+     */
+    AjaxResult deleteAllot(Long allotId);
 }

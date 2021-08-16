@@ -1,7 +1,7 @@
 package com.ruoyi.project.vocstore.domain.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ruoyi.framework.web.domain.po.BasePo;
+import com.ruoyi.framework.web.domain.po.BasePoWithoutLogic;
 import lombok.Data;
 
 /**
@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 @TableName("voc_store_item")
-public class VocStoreItem extends BasePo
+public class VocStoreItem extends BasePoWithoutLogic
 {
     /**入库标识*/
     private Long storeId;

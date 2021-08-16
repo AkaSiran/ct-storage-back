@@ -180,10 +180,10 @@ public class VocSaleServiceImpl extends ServiceImpl<VocSaleMapper,VocSale> imple
     {
         VocSale vocSale = getById(id);
         String saleStatus = vocSale.getSaleStatus();
-        if(saleStatus.equals(VocSaleStatus.DELIVER.getCode()))
+        if(!saleStatus.equals(VocSaleStatus.PLACED.getCode()))
         {
-            log.info("销售单处于出库状态");
-            return AjaxResult.error("销售单处于出库状态,无法删除");
+            log.info("当前销售单状态 = {}",VocSaleStatus.getStatusName(saleStatus));
+            return AjaxResult.error("该销售单不符合删除条件");
         }
         removeById(id);
         vocSaleItemService.remove(new QueryWrapper<VocSaleItem>().eq("sale_id",id));

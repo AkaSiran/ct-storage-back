@@ -138,7 +138,7 @@ public class VocAllotServiceImpl extends ServiceImpl<VocAllotMapper,VocAllot> im
         {
             //修改调拨单信息
             VocAllot newAllot = new VocAllot();
-            newAllot.setId(vocAllot.getId());
+            newAllot.setId(allotId);
             newAllot.setAllotStatus(VocAllotStatus.ALLOT_STORAGE.getCode());
             updateById(newAllot);
             //新增入库商品信息
@@ -207,6 +207,11 @@ public class VocAllotServiceImpl extends ServiceImpl<VocAllotMapper,VocAllot> im
             log.info("当前调拨单状态 = {}",VocAllotStatus.getAllotName(allotStatus));
             return AjaxResult.error("该调拨单不符合出库条件");
         }
+        //修改调拨单信息
+        VocAllot newVocAllot = new VocAllot();
+        newVocAllot.setId(allotId);
+        newVocAllot.setAllotStatus(VocAllotStatus.ALLOT_INTRANSIT.getCode());
+        updateById(newVocAllot);
         //新增出库商品信息
         List<InsertVocDeliverItemRequestDto> insertVocDeliverItemRequestDtoList = Lists.newArrayList();
         List<VocAllotItem> vocAllotItemList = vocAllotItemService.list(new QueryWrapper<VocAllotItem>()
@@ -228,5 +233,20 @@ public class VocAllotServiceImpl extends ServiceImpl<VocAllotMapper,VocAllot> im
         insertVocDeliverRequestDto.setDeptId(fromDeptId);
         insertVocDeliverRequestDto.setInsertVocDeliverItemRequestDtoList(insertVocDeliverItemRequestDtoList);
         return vocDeliverService.insertVocDeliver(insertVocDeliverRequestDto);
+    }
+
+    @Override
+    @Transactional
+    public AjaxResult deleteAllot(Long allotId)
+    {
+        VocAllot vocAllot = getById(allotId);
+        String allotStatus = vocAllot.getAllotStatus();
+        if(allotStatus.equals(VocAllotStatus.ALLOT_DELIVER.getCode()))
+        {
+            log.info("当前调拨单状态 = {}",VocAllotStatus.getAllotName(allotStatus));
+            return AjaxResult.error("该调拨单不符合删除条件");
+        }
+
+        return null;
     }
 }

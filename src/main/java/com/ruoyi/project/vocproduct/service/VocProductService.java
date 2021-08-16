@@ -38,6 +38,13 @@ public interface VocProductService extends IService<VocProduct>
     AjaxResult productDetail(Long id);
 
     /**
+     * 删除商品信息
+     * @param id
+     * @return
+     */
+    AjaxResult deleteProduct(Long id);
+
+    /**
      * 获取商品信息分页列表
      * @param selectVocProductRequestDto
      * @return
