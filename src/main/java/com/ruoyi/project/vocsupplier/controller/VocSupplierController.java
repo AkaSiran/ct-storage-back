@@ -18,9 +18,9 @@ import java.util.List;
 
 /**
  * Created by Fyc on 2021-7-23.
- * 供应商
+ * 厂商
  */
-@Api(tags = "供应商管理")
+@Api(tags = "厂商管理")
 @RequestMapping("/base/supplier")
 @RestController
 public class VocSupplierController extends BaseController
@@ -30,13 +30,13 @@ public class VocSupplierController extends BaseController
     private VocSupplierService vocSupplierService;
 
     /**
-     * 新增供应商
+     * 新增厂商
      * @param insertVocSupplierRequestDto
      * @return
      */
     @PreAuthorize("@ss.hasPermi('base:supplier:insert')")
     @ApiOperationSupport(author = "Fyc")
-    @ApiOperation(value = "新增供应商", notes = "添加供应商信息")
+    @ApiOperation(value = "新增厂商", notes = "添加厂商信息")
     @PostMapping("/insert")
     public AjaxResult insertSupplier(@RequestBody InsertVocSupplierRequestDto insertVocSupplierRequestDto)
     {
@@ -44,13 +44,13 @@ public class VocSupplierController extends BaseController
     }
 
     /**
-     * 修改供应商
+     * 修改厂商
      * @param updateVocSupplierRequestDto
      * @return
      */
     @PreAuthorize("@ss.hasPermi('base:supplier:update')")
     @ApiOperationSupport(author = "Fyc")
-    @ApiOperation(value = "修改供应商",notes = "根据主键修改供应商信息")
+    @ApiOperation(value = "修改厂商",notes = "根据主键修改厂商信息")
     @PutMapping("/update")
     public AjaxResult updateSupplier(@RequestBody UpdateVocSupplierRequestDto updateVocSupplierRequestDto)
     {
@@ -58,13 +58,13 @@ public class VocSupplierController extends BaseController
     }
 
     /**
-     * 获取供应商详情
+     * 获取厂商详情
      * @param id
      * @return
      */
     @PreAuthorize("@ss.hasPermi('base:supplier:detail')")
     @ApiOperationSupport(author = "Fyc")
-    @ApiOperation(value = "供应商详情", notes = "根据主键获取供应商详情")
+    @ApiOperation(value = "厂商详情", notes = "根据主键获取厂商详情")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "主键", required = true)
     })
@@ -78,7 +78,7 @@ public class VocSupplierController extends BaseController
     }
 
     /**
-     * 获取供应商分页列表
+     * 获取厂商分页列表
      * @param selectVocSupplierRequestDto
      * @return
      */
@@ -89,7 +89,7 @@ public class VocSupplierController extends BaseController
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "请求成功", response = SelectVocSupplierResponseDto.class)
     })
-    @ApiOperation(value = "供应商分页列表", notes = "获取供应商分页列表信息")
+    @ApiOperation(value = "厂商分页列表", notes = "获取厂商分页列表信息")
     @ApiOperationSupport(author = "Fyc")
     @GetMapping("/page")
     public TableDataInfo supplierPage(SelectVocSupplierRequestDto selectVocSupplierRequestDto)
@@ -100,12 +100,12 @@ public class VocSupplierController extends BaseController
     }
 
     /**
-     * 删除供应商信息
+     * 删除厂商信息
      * @param id
      * @return
      */
     @PreAuthorize("@ss.hasPermi('base:supplier:delete')")
-    @ApiOperation(value = "删除供应商", notes = "根据主键删除供应商信息")
+    @ApiOperation(value = "删除厂商", notes = "根据主键删除厂商信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "主键", required = true)
     })

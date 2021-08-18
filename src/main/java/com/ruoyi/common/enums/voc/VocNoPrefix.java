@@ -8,7 +8,7 @@ public enum VocNoPrefix
 {
     PRODUCT("PR-","商品信息"),
 
-    SUPPLIER("SU-","供应商信息"),
+    SUPPLIER("SU-","厂商信息"),
 
     ALLOT("AL-","调拨信息"),
 

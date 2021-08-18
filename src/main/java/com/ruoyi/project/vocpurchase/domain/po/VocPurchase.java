@@ -21,7 +21,7 @@ public class VocPurchase extends BasePo
     /**部门标识*/
     private Long deptId;
 
-    /**供应商标识*/
+    /**厂商标识*/
     private Long supplierId;
 
     /**入库标识*/

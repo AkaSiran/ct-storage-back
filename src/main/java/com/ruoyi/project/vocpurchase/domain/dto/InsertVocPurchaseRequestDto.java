@@ -19,7 +19,7 @@ public class InsertVocPurchaseRequestDto extends BaseRequestDto
     @ApiModelProperty(value = "部门标识")
     private Long deptId;
 
-    @ApiModelProperty(value = "供应商标识")
+    @ApiModelProperty(value = "厂商标识")
     private Long supplierId;
 
     @ApiModelProperty(value = "采购类型")

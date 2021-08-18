@@ -7,31 +7,31 @@ import lombok.Data;
 
 /**
  * Created by Fyc on 2021-7-26.
- * 供应商
+ * 厂商
  */
 @Data
-@ApiModel("新增供应商信息")
+@ApiModel("新增厂商信息")
 public class InsertVocSupplierRequestDto extends BaseRequestDto
 {
 
-    @ApiModelProperty(value = "供应商名称", required = true)
+    @ApiModelProperty(value = "厂商名称", required = true)
     private String name;
 
-    @ApiModelProperty(value = "供应商简称")
+    @ApiModelProperty(value = "厂商简称")
     private String shortName;
 
-    @ApiModelProperty(value = "供应商联系方式")
+    @ApiModelProperty(value = "厂商联系方式")
     private String phone;
 
-    @ApiModelProperty(value = "供应商传真")
+    @ApiModelProperty(value = "厂商传真")
     private String fax;
 
-    @ApiModelProperty(value = "供应商地址")
+    @ApiModelProperty(value = "厂商地址")
     private String address;
 
-    @ApiModelProperty(value = "供应商负责人")
+    @ApiModelProperty(value = "厂商负责人")
     private String managerName;
 
-    @ApiModelProperty(value = "供应商负责人联系方式")
+    @ApiModelProperty(value = "厂商负责人联系方式")
     private String managerPhone;
 }

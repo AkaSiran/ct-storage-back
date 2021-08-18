@@ -18,7 +18,7 @@ public class ListVocPurchaseResponseDto extends BaseResponseDto
     @ApiModelProperty(value = "部门标识")
     private Long deptId;
 
-    @ApiModelProperty(value = "供应商标识")
+    @ApiModelProperty(value = "厂商标识")
     private Long supplierId;
 
     @ApiModelProperty(value = "入库标识")

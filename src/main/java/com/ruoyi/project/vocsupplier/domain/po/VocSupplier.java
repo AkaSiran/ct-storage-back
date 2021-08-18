@@ -5,7 +5,7 @@ import lombok.Data;
 
 /**
  * Created by Fyc on 2021-7-23.
- * 供应商
+ * 厂商
  */
 @Data
 public class VocSupplier extends BasePo

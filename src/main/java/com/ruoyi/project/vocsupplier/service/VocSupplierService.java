@@ -12,34 +12,34 @@ import java.util.List;
 
 /**
  * Created by Fyc on 2021-7-23.
- * 供应商
+ * 厂商
  */
 public interface VocSupplierService extends IService<VocSupplier>
 {
 
     /**
-     * 新增供应商信息
+     * 新增厂商信息
      * @param insertVocSupplierRequestDto
      * @return
      */
     AjaxResult insertSupplier(InsertVocSupplierRequestDto insertVocSupplierRequestDto);
 
     /**
-     * 修改供应商信息
+     * 修改厂商信息
      * @param updateVocSupplierRequestDto
      * @return
      */
     AjaxResult updateSupplier(UpdateVocSupplierRequestDto updateVocSupplierRequestDto);
 
     /**
-     * 获取供应商信息
+     * 获取厂商信息
      * @param id
      * @return
      */
     AjaxResult supplierDetail(Long id);
 
     /**
-     * 获取供应商信息列表
+     * 获取厂商信息列表
      * @param selectVocSupplierRequestDto
      * @return
      */

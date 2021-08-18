@@ -22,7 +22,7 @@ import java.util.List;
 
 /**
  * Created by Fyc on 2021-7-23.
- * 供应商信息
+ * 厂商信息
  */
 @Slf4j
 @Service
