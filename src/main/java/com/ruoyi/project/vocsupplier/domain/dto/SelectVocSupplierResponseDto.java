@@ -13,7 +13,10 @@ import lombok.Data;
 public class SelectVocSupplierResponseDto extends BaseResponseDto
 {
 
-    @ApiModelProperty(value = "厂商名称", required = true)
+    @ApiModelProperty(value = "厂商编号")
+    private String no;
+
+    @ApiModelProperty(value = "厂商名称")
     private String name;
 
     @ApiModelProperty(value = "厂商简称")
