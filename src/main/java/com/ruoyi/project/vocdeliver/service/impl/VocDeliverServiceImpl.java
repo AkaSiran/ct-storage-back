@@ -1,8 +1,10 @@
 package com.ruoyi.project.vocdeliver.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.common.enums.voc.VocNoPrefix;
 import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.voc.NoUtils;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.vocdeliver.domain.dto.InsertVocDeliverItemRequestDto;
 import com.ruoyi.project.vocdeliver.domain.dto.InsertVocDeliverRequestDto;
@@ -50,6 +52,7 @@ public class VocDeliverServiceImpl extends ServiceImpl<VocDeliverMapper,VocDeliv
         VocDeliver vocDeliver = new VocDeliver();
         Long deptId = insertVocDeliverRequestDto.getDeptId();
         BeanUtils.copyProperties(insertVocDeliverRequestDto,vocDeliver);
+        vocDeliver.setDeliverNo(NoUtils.generateNo(VocNoPrefix.DELIVER.getCode()));
         vocDeliver.preInsert();
         save(vocDeliver);
         //出库商品信息保存

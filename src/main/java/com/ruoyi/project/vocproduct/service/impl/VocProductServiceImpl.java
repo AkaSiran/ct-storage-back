@@ -15,9 +15,14 @@ import com.ruoyi.project.vocproduct.domain.po.VocProduct;
 import com.ruoyi.project.vocproduct.mapper.VocProductMapper;
 import com.ruoyi.project.vocproduct.service.VocProductService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,7 +33,11 @@ import java.util.List;
 @Service
 public class VocProductServiceImpl extends ServiceImpl<VocProductMapper,VocProduct> implements VocProductService
 {
+    @Autowired
+    private VocProductMapper vocProductMapper;
+
     @Override
+    @Transactional
     public AjaxResult insertProduct(InsertVocProductRequestDto insertVocProductRequestDto)
     {
         VocProduct vocProduct = new VocProduct();
@@ -40,6 +49,7 @@ public class VocProductServiceImpl extends ServiceImpl<VocProductMapper,VocProdu
     }
 
     @Override
+    @Transactional
     public AjaxResult updateProduct(UpdateVocProductRequestDto updateVocProductRequestDto)
     {
         VocProduct vocProduct = new VocProduct();
@@ -59,9 +69,30 @@ public class VocProductServiceImpl extends ServiceImpl<VocProductMapper,VocProdu
     }
 
     @Override
-    public AjaxResult deleteProduct(Long id)
+    @Transactional
+    public AjaxResult deleteProduct(Long[] ids)
     {
-        return null;
+        List<Long> list = Arrays.asList(ids);
+        for(Long id : list)
+        {
+            HashMap<String,Object> countMap = vocProductMapper.checkUsedCount(id);
+            int allotCount = Integer.valueOf(countMap.get("allot_count").toString());
+            int purchaseCount = Integer.valueOf(countMap.get("purchase_count").toString());
+            int saleCount = Integer.valueOf(countMap.get("sale_count").toString());
+            int storeCount = Integer.valueOf(countMap.get("store_count").toString());
+            int deliverCount = Integer.valueOf(countMap.get("deliver_count").toString());
+            int inventoryCount = Integer.valueOf(countMap.get("inventory_count").toString());
+            if(allotCount>0 || purchaseCount>0 || saleCount>0 || storeCount>0 || deliverCount>0 || inventoryCount>0)
+            {
+                VocProduct vocProduct = getById(id);
+                String productNo = vocProduct.getNo();
+                String productName = vocProduct.getName();
+                log.info("商品被占用,商品标识={},商品编号={},商品名称={},调拨={},采购={},销售={},入库={},出库={},库存={}",id,productNo,productName,allotCount,purchaseCount,saleCount,storeCount,deliverCount,inventoryCount);
+                return AjaxResult.error("商品使用中,不允许删除.商品编号:"+productNo+",商品名称:"+productName);
+            }
+        }
+        removeByIds(list);
+        return AjaxResult.success();
     }
 
     @Override
@@ -81,7 +112,7 @@ public class VocProductServiceImpl extends ServiceImpl<VocProductMapper,VocProdu
         if(StringUtils.isNotBlank(size)) queryWrapper.eq("size",size);
         queryWrapper.orderByDesc("create_time");
         List<VocProduct> list = list(queryWrapper);
-        if(StringUtils.isNotEmpty(list))
+        if(CollectionUtils.isNotEmpty(list))
         {
             list.forEach(item ->
             {

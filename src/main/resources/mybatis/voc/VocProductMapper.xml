@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.vocproduct.mapper.VocProductMapper">
+
+    <!-- 获取各单据使用商品数量-->
+    <select id="checkUsedCount" parameterType="java.lang.Long" resultType="java.util.HashMap">
+        SELECT
+         (SELECT COUNT(1) FROM voc_allot_item WHERE product_id = #{productId}) allot_count,
+         (SELECT COUNT(1) FROM voc_purchase_item WHERE product_id = #{productId}) purchase_count,
+         (SELECT COUNT(1) FROM voc_sale_item WHERE product_id = #{productId}) sale_count,
+         (SELECT COUNT(1) FROM voc_store_item WHERE product_id = #{productId}) store_count,
+         (SELECT COUNT(1) FROM voc_deliver_item WHERE product_id = #{productId}) deliver_count,
+         (SELECT COUNT(1) FROM voc_inventory WHERE product_id = #{productId}) inventory_count
+        FROM
+         DUAL
+    </select>
+</mapper>

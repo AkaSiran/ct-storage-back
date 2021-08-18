@@ -12,6 +12,10 @@ import lombok.Data;
 @TableName("voc_allot")
 public class VocAllot extends BasePo
 {
+
+    /**调拨编号*/
+    private String allotNo;
+
     /**发货部门标识*/
     private Long fromDeptId;
 

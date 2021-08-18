@@ -3,7 +3,9 @@ package com.ruoyi.project.vocsupplier.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
+import com.ruoyi.common.enums.voc.VocNoPrefix;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.voc.NoUtils;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.vocsupplier.domain.dto.InsertVocSupplierRequestDto;
 import com.ruoyi.project.vocsupplier.domain.dto.SelectVocSupplierRequestDto;
@@ -32,6 +34,7 @@ public class VocSupplierServiceImpl extends ServiceImpl<VocSupplierMapper,VocSup
     {
         VocSupplier supplierPo = new VocSupplier();
         BeanUtils.copyProperties(insertVocSupplierRequestDto,supplierPo);
+        supplierPo.setNo(NoUtils.generateNo(VocNoPrefix.SUPPLIER.getCode()));
         supplierPo.preInsert();
         save(supplierPo);
         return AjaxResult.success();

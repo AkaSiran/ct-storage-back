@@ -1,7 +1,9 @@
 package com.ruoyi.project.vocstore.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.common.enums.voc.VocNoPrefix;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.voc.NoUtils;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.vocinventory.domain.dto.PutVocInventoryRequestDto;
 import com.ruoyi.project.vocinventory.service.VocInventoryService;
@@ -49,6 +51,7 @@ public class VocStoreServiceImpl extends ServiceImpl<VocStoreMapper,VocStore> im
         VocStore vocStore = new VocStore();
         Long deptId = insertVocStoreRequestDto.getDeptId();
         BeanUtils.copyProperties(insertVocStoreRequestDto,vocStore);
+        vocStore.setStoreNo(NoUtils.generateNo(VocNoPrefix.STORE.getCode()));
         vocStore.preInsert();
         save(vocStore);
         //入库商品信息保存

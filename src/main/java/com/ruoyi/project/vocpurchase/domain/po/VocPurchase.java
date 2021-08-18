@@ -14,6 +14,10 @@ import java.math.BigDecimal;
 @TableName("voc_purchase")
 public class VocPurchase extends BasePo
 {
+
+    /**采购编号*/
+    private String purchaseNo;
+
     /**部门标识*/
     private Long deptId;
 

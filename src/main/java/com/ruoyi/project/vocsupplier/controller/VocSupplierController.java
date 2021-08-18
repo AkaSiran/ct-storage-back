@@ -51,7 +51,7 @@ public class VocSupplierController extends BaseController
     @PreAuthorize("@ss.hasPermi('base:supplier:update')")
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "修改供应商",notes = "根据主键修改供应商信息")
-    @PatchMapping("/update")
+    @PutMapping("/update")
     public AjaxResult updateSupplier(@RequestBody UpdateVocSupplierRequestDto updateVocSupplierRequestDto)
     {
         return vocSupplierService.updateSupplier(updateVocSupplierRequestDto);

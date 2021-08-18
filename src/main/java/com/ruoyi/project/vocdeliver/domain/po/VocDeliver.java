@@ -12,6 +12,10 @@ import lombok.Data;
 @TableName("voc_deliver")
 public class VocDeliver extends BasePo
 {
+
+    /**出库编号*/
+    private String deliverNo;
+
     /**部门标识*/
     private Long deptId;
 

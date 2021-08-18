@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.ruoyi.common.enums.voc.VocDeliverType;
+import com.ruoyi.common.enums.voc.VocNoPrefix;
 import com.ruoyi.common.enums.voc.VocSaleStatus;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.voc.NoUtils;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.vocdeliver.domain.dto.InsertVocDeliverItemRequestDto;
 import com.ruoyi.project.vocdeliver.domain.dto.InsertVocDeliverRequestDto;
@@ -54,6 +56,7 @@ public class VocSaleServiceImpl extends ServiceImpl<VocSaleMapper,VocSale> imple
         VocSale vocSale = new VocSale();
         BeanUtils.copyProperties(insertVocSaleRequestDto,vocSale);
         vocSale.setSaleStatus(VocSaleStatus.PLACED.getCode());
+        vocSale.setSaleNo(NoUtils.generateNo(VocNoPrefix.SALE.getCode()));
         vocSale.preInsert();
         save(vocSale);
         //保存销售商品信息

@@ -12,6 +12,10 @@ import lombok.Data;
 @TableName("voc_store")
 public class VocStore extends BasePo
 {
+
+    /**入库编号*/
+    private String storeNo;
+
     /**部门标识*/
     private Long deptId;
 
