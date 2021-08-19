@@ -39,6 +39,13 @@ public interface VocSupplierService extends IService<VocSupplier>
     AjaxResult supplierDetail(Long id);
 
     /**
+     * 删除厂商信息
+     * @param ids
+     * @return
+     */
+    AjaxResult deleteSupplier(Long[] ids);
+
+    /**
      * 获取厂商信息列表
      * @param selectVocSupplierRequestDto
      * @return

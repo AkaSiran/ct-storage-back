@@ -7,6 +7,8 @@ import com.ruoyi.common.enums.voc.VocNoPrefix;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.voc.NoUtils;
 import com.ruoyi.framework.web.domain.AjaxResult;
+import com.ruoyi.project.vocpurchase.domain.po.VocPurchase;
+import com.ruoyi.project.vocpurchase.service.VocPurchaseService;
 import com.ruoyi.project.vocsupplier.domain.dto.InsertVocSupplierRequestDto;
 import com.ruoyi.project.vocsupplier.domain.dto.SelectVocSupplierRequestDto;
 import com.ruoyi.project.vocsupplier.domain.dto.SelectVocSupplierResponseDto;
@@ -16,8 +18,10 @@ import com.ruoyi.project.vocsupplier.mapper.VocSupplierMapper;
 import com.ruoyi.project.vocsupplier.service.VocSupplierService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -28,6 +32,9 @@ import java.util.List;
 @Service
 public class VocSupplierServiceImpl extends ServiceImpl<VocSupplierMapper,VocSupplier> implements VocSupplierService
 {
+
+    @Autowired
+    private VocPurchaseService vocPurchaseService;
 
     @Override
     public AjaxResult insertSupplier(InsertVocSupplierRequestDto insertVocSupplierRequestDto)
@@ -60,6 +67,26 @@ public class VocSupplierServiceImpl extends ServiceImpl<VocSupplierMapper,VocSup
     }
 
     @Override
+    public AjaxResult deleteSupplier(Long[] ids)
+    {
+        List<Long> list = Arrays.asList(ids);
+        for(Long id : list)
+        {
+            int purchaseCount = vocPurchaseService.count(new QueryWrapper<VocPurchase>().eq("supplier_id",id));
+            if(purchaseCount>0)
+            {
+                VocSupplier vocSupplier = getById(id);
+                String supplierNo = vocSupplier.getNo();
+                String supplierName = vocSupplier.getName();
+                log.info("厂商被占用,厂商标识={},厂商编号={},厂商名称={}",id,supplierNo,supplierName);
+                return AjaxResult.error("厂商使用中,不允许删除.厂商编号:"+supplierNo+";厂商名称:"+supplierName);
+            }
+        }
+        removeByIds(list);
+        return AjaxResult.success();
+    }
+
+    @Override
     public List<SelectVocSupplierResponseDto> supplierList(SelectVocSupplierRequestDto selectVocSupplierRequestDto)
     {
         QueryWrapper<VocSupplier> queryWrapper = new QueryWrapper<VocSupplier>();
@@ -67,9 +94,9 @@ public class VocSupplierServiceImpl extends ServiceImpl<VocSupplierMapper,VocSup
         String no = selectVocSupplierRequestDto.getNo();
         String name = selectVocSupplierRequestDto.getName();
         String shortName = selectVocSupplierRequestDto.getShortName();
-        if(StringUtils.isNotBlank(no)) queryWrapper.eq("no",no);
-        if(StringUtils.isNotBlank(name)) queryWrapper.eq("name",name);
-        if(StringUtils.isNotBlank(shortName)) queryWrapper.eq("shortName",shortName);
+        if(StringUtils.isNotBlank(no)) queryWrapper.like("no",no);
+        if(StringUtils.isNotBlank(name)) queryWrapper.like("name",name);
+        if(StringUtils.isNotBlank(shortName)) queryWrapper.like("shortName",shortName);
         queryWrapper.orderByDesc("create_time");
         List<VocSupplier> list = list(queryWrapper);
         if(StringUtils.isNotEmpty(list))

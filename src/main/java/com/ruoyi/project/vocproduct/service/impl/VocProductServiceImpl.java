@@ -105,9 +105,9 @@ public class VocProductServiceImpl extends ServiceImpl<VocProductMapper,VocProdu
         String shortName = selectVocProductRequestDto.getShortName();
         String type = selectVocProductRequestDto.getType();
         String size = selectVocProductRequestDto.getSize();
-        if(StringUtils.isNotBlank(no)) queryWrapper.eq("no",no);
-        if(StringUtils.isNotBlank(name)) queryWrapper.eq("name",name);
-        if(StringUtils.isNotBlank(shortName)) queryWrapper.eq("shortName",shortName);
+        if(StringUtils.isNotBlank(no)) queryWrapper.like("no",no);
+        if(StringUtils.isNotBlank(name)) queryWrapper.like("name",name);
+        if(StringUtils.isNotBlank(shortName)) queryWrapper.like("shortName",shortName);
         if(StringUtils.isNotBlank(type)) queryWrapper.eq("type",type);
         if(StringUtils.isNotBlank(size)) queryWrapper.eq("size",size);
         queryWrapper.orderByDesc("create_time");
