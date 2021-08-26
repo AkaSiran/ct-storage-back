@@ -8,7 +8,6 @@ import com.ruoyi.project.vocproduct.domain.dto.InsertVocProductRequestDto;
 import com.ruoyi.project.vocproduct.domain.dto.SelectVocProductRequestDto;
 import com.ruoyi.project.vocproduct.domain.dto.SelectVocProductResponseDto;
 import com.ruoyi.project.vocproduct.domain.dto.UpdateVocProductRequestDto;
-import com.ruoyi.project.vocproduct.mapper.VocProductMapper;
 import com.ruoyi.project.vocproduct.service.VocProductService;
 import com.ruoyi.project.vocsupplier.domain.dto.SelectVocSupplierRequestDto;
 import com.ruoyi.project.vocsupplier.domain.dto.SelectVocSupplierResponseDto;
@@ -31,15 +30,12 @@ public class VocProductController extends BaseController
     @Autowired
     private VocProductService vocProductService;
 
-    @Autowired
-    private VocProductMapper vocProductMapper;
-
     /**
      * 新增商品
      * @param insertVocProductRequestDto
      * @return
      */
-    @PreAuthorize("@ss.hasPermi('base:product:insert')")
+    @PreAuthorize("@ss.hasPermi('base:product:add')")
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "新增商品", notes = "添加商品信息")
     @PostMapping("/insert")
@@ -53,7 +49,7 @@ public class VocProductController extends BaseController
      * @param updateVocProductRequestDto
      * @return
      */
-    @PreAuthorize("@ss.hasPermi('base:product:update')")
+    @PreAuthorize("@ss.hasPermi('base:product:edit')")
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "修改商品", notes = "修改商品信息")
     @PutMapping("/update")
@@ -67,7 +63,7 @@ public class VocProductController extends BaseController
      * @param id
      * @return
      */
-    @PreAuthorize("@ss.hasPermi('base:product:detail')")
+    @PreAuthorize("@ss.hasPermi('base:product:query')")
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "商品详情", notes = "根据主键获取商品详情")
     @ApiImplicitParams({
@@ -87,7 +83,7 @@ public class VocProductController extends BaseController
      * @param selectVocProductRequestDto
      * @return
      */
-    @PreAuthorize("@ss.hasPermi('base:product:page')")
+    @PreAuthorize("@ss.hasPermi('base:product:list')")
     @ApiImplicitParams({
             @ApiImplicitParam(value = "请求参数", dataTypeClass = SelectVocSupplierRequestDto.class)
     })
@@ -106,10 +102,10 @@ public class VocProductController extends BaseController
 
     /**
      * 删除商品
-     * @param id
+     * @param ids
      * @return
      */
-    @PreAuthorize("@ss.hasPermi('base:product:delete')")
+    @PreAuthorize("@ss.hasPermi('base:product:remove')")
     @ApiOperation(value = "删除商品", notes = "根据主键删除商品信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "主键", required = true)

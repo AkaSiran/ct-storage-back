@@ -79,7 +79,7 @@ public class VocSupplierServiceImpl extends ServiceImpl<VocSupplierMapper,VocSup
                 String supplierNo = vocSupplier.getNo();
                 String supplierName = vocSupplier.getName();
                 log.info("厂商被占用,厂商标识={},厂商编号={},厂商名称={}",id,supplierNo,supplierName);
-                return AjaxResult.error("厂商使用中,不允许删除.厂商编号:"+supplierNo+";厂商名称:"+supplierName);
+                return AjaxResult.error("厂商使用中,不允许删除.厂商编号:"+supplierNo+",厂商名称:"+supplierName);
             }
         }
         removeByIds(list);

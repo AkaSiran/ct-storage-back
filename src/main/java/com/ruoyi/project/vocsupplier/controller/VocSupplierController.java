@@ -34,7 +34,7 @@ public class VocSupplierController extends BaseController
      * @param insertVocSupplierRequestDto
      * @return
      */
-    @PreAuthorize("@ss.hasPermi('base:supplier:insert')")
+    @PreAuthorize("@ss.hasPermi('base:supplier:add')")
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "新增厂商", notes = "添加厂商信息")
     @PostMapping("/insert")
@@ -48,7 +48,7 @@ public class VocSupplierController extends BaseController
      * @param updateVocSupplierRequestDto
      * @return
      */
-    @PreAuthorize("@ss.hasPermi('base:supplier:update')")
+    @PreAuthorize("@ss.hasPermi('base:supplier:edit')")
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "修改厂商",notes = "根据主键修改厂商信息")
     @PutMapping("/update")
@@ -62,7 +62,7 @@ public class VocSupplierController extends BaseController
      * @param id
      * @return
      */
-    @PreAuthorize("@ss.hasPermi('base:supplier:detail')")
+    @PreAuthorize("@ss.hasPermi('base:supplier:query')")
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "厂商详情", notes = "根据主键获取厂商详情")
     @ApiImplicitParams({
@@ -82,7 +82,7 @@ public class VocSupplierController extends BaseController
      * @param selectVocSupplierRequestDto
      * @return
      */
-    @PreAuthorize("@ss.hasPermi('base:supplier:page')")
+    @PreAuthorize("@ss.hasPermi('base:supplier:list')")
     @ApiImplicitParams({
             @ApiImplicitParam(value = "请求参数", dataTypeClass = SelectVocSupplierRequestDto.class)
     })
@@ -104,7 +104,7 @@ public class VocSupplierController extends BaseController
      * @param id
      * @return
      */
-    @PreAuthorize("@ss.hasPermi('base:supplier:delete')")
+    @PreAuthorize("@ss.hasPermi('base:supplier:remove')")
     @ApiOperation(value = "删除厂商", notes = "根据主键删除厂商信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "主键", required = true)
