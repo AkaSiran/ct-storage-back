@@ -8,6 +8,7 @@ import com.ruoyi.project.vocpurchase.domain.dto.*;
 import com.ruoyi.project.vocpurchase.service.VocPurchaseService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class VocPurchaseController extends BaseController
      * @param insertVocPurchaseRequestDto
      * @return
      */
+    @PreAuthorize("@ss.hasPermi('voc:purchase:add')")
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "新增采购信息", notes = "添加采购信息")
     @PostMapping("/insert")
@@ -42,9 +44,10 @@ public class VocPurchaseController extends BaseController
      * @param updateVocPurchaseRequestDto
      * @return
      */
+    @PreAuthorize("@ss.hasPermi('voc:purchase:edit')")
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "修改采购信息", notes = "修改采购信息")
-    @PatchMapping("/update")
+    @PutMapping("/update")
     public AjaxResult updatePurchase(@RequestBody UpdateVocPurchaseRequestDto updateVocPurchaseRequestDto)
     {
         return vocPurchaseService.updatePurchase(updateVocPurchaseRequestDto);
@@ -55,6 +58,7 @@ public class VocPurchaseController extends BaseController
      * @param id
      * @return
      */
+    @PreAuthorize("@ss.hasPermi('voc:purchase:storage')")
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "采购入库", notes = "采购订单入库")
     @ApiImplicitParams({
@@ -71,6 +75,7 @@ public class VocPurchaseController extends BaseController
      * @param id
      * @return
      */
+    @PreAuthorize("@ss.hasPermi('voc:purchase:query')")
     @ApiOperationSupport(author = "Fyc")
     @ApiOperation(value = "采购详情", notes = "根据主键获取采购详情")
     @ApiImplicitParams({
@@ -90,6 +95,7 @@ public class VocPurchaseController extends BaseController
      * @param selectVocPurchaseRequestDto
      * @return
      */
+    @PreAuthorize("@ss.hasPermi('voc:purchase:list')")
     @ApiImplicitParams({
             @ApiImplicitParam(value = "请求参数", dataTypeClass = SelectVocPurchaseRequestDto.class)
     })
@@ -106,6 +112,12 @@ public class VocPurchaseController extends BaseController
         return getDataTable(list);
     }
 
+    /**
+     * 删除采购信息
+     * @param id
+     * @return
+     */
+    @PreAuthorize("@ss.hasPermi('voc:purchase:remove')")
     @ApiOperation(value = "删除采购信息", notes = "根据主键删除采购信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "主键", required = true)

@@ -24,4 +24,9 @@ public class SelectVocPurchaseRequestDto extends BaseRequestDto
 
     @ApiModelProperty(value = "采购状态")
     private String puechaseStatus;
+
+    @ApiModelProperty(value = "采购单编号")
+    private String purchaseNo;
+
+
 }

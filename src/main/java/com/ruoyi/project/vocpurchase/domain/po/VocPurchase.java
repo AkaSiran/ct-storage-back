@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.framework.web.domain.po.BasePo;
 import lombok.Data;
 
-import java.math.BigDecimal;
-
 /**
  * Created by Fyc on 2021-7-29.
  * 采购信息
@@ -31,10 +29,10 @@ public class VocPurchase extends BasePo
     private String purchaseType;
 
     /**采购总数*/
-    private int totalAmount;
+    private Integer totalAmount;
 
     /**采购总价*/
-    private BigDecimal totalPrice;
+    private Integer totalPrice;
 
     /**采购状态*/
     private String purchaseStatus;

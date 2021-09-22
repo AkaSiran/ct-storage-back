@@ -5,8 +5,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.math.BigDecimal;
-
 /**
  * Created by Fyc on 2021-8-2.
  * 获取销售信息列表
@@ -28,10 +26,10 @@ public class ListVocPurchaseResponseDto extends BaseResponseDto
     private String purchaseType;
 
     @ApiModelProperty(value = "采购总数")
-    private int totalAmount;
+    private Integer totalAmount;
 
     @ApiModelProperty(value = "采购总价")
-    private BigDecimal totalPrice;
+    private Double totalPrice;
 
     @ApiModelProperty(value = "采购状态")
     private String purchaseStatus;

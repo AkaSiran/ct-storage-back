@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.framework.web.domain.po.BasePoWithoutLogic;
 import lombok.Data;
 
-import java.math.BigDecimal;
-
 /**
  * Created by Fyc on 2021-7-29.
  * 采购商品信息
@@ -21,14 +19,14 @@ public class VocPurchaseItem extends BasePoWithoutLogic
     private Long productId;
 
     /**商品数量*/
-    private int amount;
+    private Integer amount;
 
     /**商品单价*/
-    private BigDecimal singlePrice;
+    private Integer singlePrice;
 
     /**商品总价*/
-    private BigDecimal totalPrice;
+    private Integer totalPrice;
 
     /**商品排序*/
-    private int sort;
+    private Integer sort;
 }

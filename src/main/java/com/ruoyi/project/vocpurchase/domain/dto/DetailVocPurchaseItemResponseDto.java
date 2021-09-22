@@ -5,8 +5,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.math.BigDecimal;
-
 /**
  * Created by Fyc on 2021-8-2.
  * 采购商品详情
@@ -22,14 +20,14 @@ public class DetailVocPurchaseItemResponseDto extends BaseResponseDto
     private Long productId;
 
     @ApiModelProperty(value = "商品数量")
-    private int amount;
+    private Integer amount;
 
     @ApiModelProperty(value = "商品单价")
-    private BigDecimal singlePrice;
+    private Double singlePrice;
 
     @ApiModelProperty(value = "商品总价")
-    private BigDecimal totalPrice;
+    private Double totalPrice;
 
     @ApiModelProperty(value = "排序")
-    private int sort;
+    private Integer sort;
 }

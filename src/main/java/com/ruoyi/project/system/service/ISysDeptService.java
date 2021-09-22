@@ -1,8 +1,9 @@
 package com.ruoyi.project.system.service;
 
-import java.util.List;
 import com.ruoyi.framework.web.domain.TreeSelect;
 import com.ruoyi.project.system.domain.SysDept;
+
+import java.util.List;
 
 /**
  * 部门管理 服务层
@@ -18,6 +19,13 @@ public interface ISysDeptService
      * @return 部门信息集合
      */
     public List<SysDept> selectDeptList(SysDept dept);
+
+    /**
+     * 查询权限范围部门列表(当前及以下所有子部门)
+     * @param dept
+     * @return
+     */
+    List<SysDept> selectDeptListByPower(SysDept dept);
 
     /**
      * 构建前端所需要树结构

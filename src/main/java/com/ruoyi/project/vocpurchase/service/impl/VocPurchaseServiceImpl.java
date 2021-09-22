@@ -8,6 +8,7 @@ import com.ruoyi.common.enums.voc.VocPurchaseStatus;
 import com.ruoyi.common.enums.voc.VocStoreType;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.voc.NoUtils;
+import com.ruoyi.common.utils.voc.PriceUtils;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.vocpurchase.domain.dto.*;
 import com.ruoyi.project.vocpurchase.domain.po.VocPurchase;
@@ -55,6 +56,8 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
         //保存采购信息
         VocPurchase vocPurchase = new VocPurchase();
         BeanUtils.copyProperties(insertVocPurchaseRequestDto,vocPurchase);
+        //采购总金额换算 double -> int
+        vocPurchase.setTotalPrice(PriceUtils.d2i(insertVocPurchaseRequestDto.getTotalPrice()));
         vocPurchase.setPurchaseNo(NoUtils.generateNo(VocNoPrefix.PURCHASE.getCode()));
         vocPurchase.preInsert();
         save(vocPurchase);
@@ -66,6 +69,10 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
         {
             VocPurchaseItem vocPurchaseItem = new VocPurchaseItem();
             BeanUtils.copyProperties(insertVocPurchaseItemRequestDto,vocPurchaseItem);
+            //商品单价换算 double -> int
+            vocPurchaseItem.setSinglePrice(PriceUtils.d2i(insertVocPurchaseItemRequestDto.getSinglePrice()));
+            //商品总价换算 double -> int
+            vocPurchaseItem.setTotalPrice(PriceUtils.d2i(insertVocPurchaseItemRequestDto.getTotalPrice()));
             vocPurchaseItem.setPurchaseId(purchaseId);
             vocPurchaseItem.setSort(sort);
             vocPurchaseItem.preInsert();
@@ -89,6 +96,8 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
         //修改采购信息
         VocPurchase vocPurchase = new VocPurchase();
         BeanUtils.copyProperties(updateVocPurchaseRequestDto,vocPurchase);
+        //采购总金额换算 double -> int
+        vocPurchase.setTotalPrice(PriceUtils.d2i(updateVocPurchaseRequestDto.getTotalPrice()));
         vocPurchase.preUpdate();
         updateById(vocPurchase);
         //修改采购商品信息
@@ -101,6 +110,10 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
         {
             VocPurchaseItem vocPurchaseItem = new VocPurchaseItem();
             BeanUtils.copyProperties(updateVocPurchaseItemRequestDto,vocPurchaseItem);
+            //商品单价换算 double -> int
+            vocPurchaseItem.setSinglePrice(PriceUtils.d2i(updateVocPurchaseItemRequestDto.getSinglePrice()));
+            //商品总价换算 double -> int
+            vocPurchaseItem.setTotalPrice(PriceUtils.d2i(updateVocPurchaseItemRequestDto.getTotalPrice()));
             vocPurchaseItem.setPurchaseId(purchaseId);
             vocPurchaseItem.setSort(sort);
             vocPurchaseItem.preInsert();
@@ -156,6 +169,8 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
         VocPurchase vocPurchase = getById(id);
         DetailVocPurchaseResponseDto detailVocPurchaseResponseDto = new DetailVocPurchaseResponseDto();
         BeanUtils.copyProperties(vocPurchase,detailVocPurchaseResponseDto);
+        //采购总金额换算 int -> double
+        detailVocPurchaseResponseDto.setTotalPrice(PriceUtils.i2d(vocPurchase.getTotalPrice()));
         //获取采购商品信息
         List<DetailVocPurchaseItemResponseDto> detailVocPurchaseItemResponseDtoList = Lists.newArrayList();
         List<VocPurchaseItem> vocPurchaseItemList = vocPurchaseItemService.list(new QueryWrapper<VocPurchaseItem>()
@@ -168,6 +183,10 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
             {
                 DetailVocPurchaseItemResponseDto detailVocPurchaseItemResponseDto = new DetailVocPurchaseItemResponseDto();
                 BeanUtils.copyProperties(vocPurchaseItem,detailVocPurchaseItemResponseDto);
+                //商品单价换算 int -> double
+                detailVocPurchaseItemResponseDto.setSinglePrice(PriceUtils.i2d(vocPurchaseItem.getSinglePrice()));
+                //商品总价换算 int -> double
+                detailVocPurchaseItemResponseDto.setTotalPrice(PriceUtils.i2d(vocPurchaseItem.getTotalPrice()));
                 detailVocPurchaseItemResponseDtoList.add(detailVocPurchaseItemResponseDto);
             });
             detailVocPurchaseResponseDto.setDetailVocPurchaseItemResponseDtoList(detailVocPurchaseItemResponseDtoList);
@@ -195,6 +214,8 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
             {
                 ListVocPurchaseResponseDto listVocPurchaseResponseDto = new ListVocPurchaseResponseDto();
                 BeanUtils.copyProperties(vocPurchase,listVocPurchaseResponseDto);
+                //采购总金额换算 int -> double
+                listVocPurchaseResponseDto.setTotalPrice(PriceUtils.i2d(vocPurchase.getTotalPrice()));
                 resultList.add(listVocPurchaseResponseDto);
             });
         }

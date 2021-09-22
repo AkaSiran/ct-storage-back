@@ -26,11 +26,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select d.dept_id, d.parent_id, d.ancestors, d.dept_name, d.order_num, d.leader, d.phone, d.email, d.status, d.del_flag, d.create_by, d.create_time 
         from sys_dept d
     </sql>
-    
+
+	<sql id="powerDeptColumn">
+       d.dept_id,
+       d.parent_id,
+       d.ancestors,
+       d.dept_name,
+       d.order_num,
+       d.leader,
+       d.phone,
+       d.email,
+       d.status,
+       d.del_flag,
+       d.create_by,
+       d.create_time
+	</sql>
+
 	<select id="selectDeptList" parameterType="SysDept" resultMap="SysDeptResult">
-        <include refid="selectDeptVo"/>
-        where d.del_flag = '0'
-        <if test="parentId != null and parentId != 0">
+		<include refid="selectDeptVo"/>
+		where d.del_flag = '0'
+		<if test="parentId != null and parentId != 0">
 			AND parent_id = #{parentId}
 		</if>
 		<if test="deptName != null and deptName != ''">
@@ -42,7 +57,69 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<!-- 数据范围过滤 -->
 		${params.dataScope}
 		order by d.parent_id, d.order_num
-    </select>
+	</select>
+    
+	<!--<select id="selectDeptList" parameterType="SysDept" resultMap="SysDeptResult">
+       SELECT
+         <include refid="powerDeptColumn"/>
+	   FROM
+		 (SELECT
+		    *
+		  FROM
+		    sys_dept d
+		  WHERE
+		    del_flag = '0'
+		  AND
+		    find_in_set(101, ancestors)
+		  UNION ALL
+		  SELECT
+		    *
+		  FROM
+		    sys_dept d
+		  WHERE
+		    del_flag = '0'
+		  AND
+		    dept_id = 101)d
+    </select>-->
+
+	<!-- 查询权限范围部门列表-->
+	<select id="selectDeptListByPower" parameterType="SysDept" resultMap="SysDeptResult">
+		(<include refid="selectDeptVo"/>
+		<where>
+			d.del_flag = '0'
+			AND find_in_set(#{deptId}, ancestors)
+			<if test="parentId != null and parentId != 0">
+				AND parent_id = #{parentId}
+			</if>
+			<if test="deptName != null and deptName != ''">
+				AND dept_name like concat('%', #{deptName}, '%')
+			</if>
+			<if test="status != null and status != ''">
+				AND status = #{status}
+			</if>
+			<!-- 数据范围过滤 -->
+			${params.dataScope}
+			order by d.parent_id, d.order_num
+		</where>
+		)UNION ALL(
+		<include refid="selectDeptVo"/>
+		<where>
+			d.del_flag = '0'
+			AND d.dept_id = #{deptId}
+			<if test="parentId != null and parentId != 0">
+				AND parent_id = #{parentId}
+			</if>
+			<if test="deptName != null and deptName != ''">
+				AND dept_name like concat('%', #{deptName}, '%')
+			</if>
+			<if test="status != null and status != ''">
+				AND status = #{status}
+			</if>
+			<!-- 数据范围过滤 -->
+			${params.dataScope}
+			order by d.parent_id, d.order_num)
+		</where>
+	</select>
     
     <select id="selectDeptListByRoleId" resultType="Integer">
 		select d.dept_id
