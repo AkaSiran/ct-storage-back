@@ -8,6 +8,7 @@ import com.ruoyi.common.enums.voc.VocNoPrefix;
 import com.ruoyi.common.enums.voc.VocSaleStatus;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.voc.NoUtils;
+import com.ruoyi.common.utils.voc.PriceUtils;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.vocdeliver.domain.dto.InsertVocDeliverItemRequestDto;
 import com.ruoyi.project.vocdeliver.domain.dto.InsertVocDeliverRequestDto;
@@ -55,6 +56,8 @@ public class VocSaleServiceImpl extends ServiceImpl<VocSaleMapper,VocSale> imple
         //保存销售信息
         VocSale vocSale = new VocSale();
         BeanUtils.copyProperties(insertVocSaleRequestDto,vocSale);
+        //销售总金额换算 double -> int
+        vocSale.setTotalPrice(PriceUtils.d2i(insertVocSaleRequestDto.getTotalPrice()));
         vocSale.setSaleStatus(VocSaleStatus.PLACED.getCode());
         vocSale.setSaleNo(NoUtils.generateNo(VocNoPrefix.SALE.getCode()));
         vocSale.preInsert();
@@ -67,6 +70,10 @@ public class VocSaleServiceImpl extends ServiceImpl<VocSaleMapper,VocSale> imple
         {
             VocSaleItem vocSaleItem = new VocSaleItem();
             BeanUtils.copyProperties(insertVocSaleItemRequestDto,vocSaleItem);
+            //商品单价换算 double -> int
+            vocSaleItem.setSinglePrice(PriceUtils.d2i(insertVocSaleItemRequestDto.getSinglePrice()));
+            //商品总价换算 double -> int
+            vocSaleItem.setTotalPrice(PriceUtils.d2i(insertVocSaleItemRequestDto.getTotalPrice()));
             vocSaleItem.setSaleId(saleId);
             vocSaleItem.setSort(sort);
             vocSaleItem.preInsert();
@@ -90,6 +97,8 @@ public class VocSaleServiceImpl extends ServiceImpl<VocSaleMapper,VocSale> imple
         //修改销售信息
         VocSale vocSale = new VocSale();
         BeanUtils.copyProperties(updateVocSaleRequestDto,vocSale);
+        //销售总金额转换 double -> int
+        vocSale.setTotalPrice(PriceUtils.d2i(updateVocSaleRequestDto.getTotalPrice()));
         vocSale.setSaleStatus(VocSaleStatus.PLACED.getCode());
         vocSale.preUpdate();
         updateById(vocSale);
@@ -103,6 +112,10 @@ public class VocSaleServiceImpl extends ServiceImpl<VocSaleMapper,VocSale> imple
         {
             VocSaleItem vocSaleItem = new VocSaleItem();
             BeanUtils.copyProperties(updateVocSaleItemRequestDto,vocSaleItem);
+            //商品单价换算 double -> int
+            vocSaleItem.setSinglePrice(PriceUtils.d2i(updateVocSaleItemRequestDto.getSinglePrice()));
+            //商品总价换算 double -> int
+            vocSaleItem.setTotalPrice(PriceUtils.d2i(updateVocSaleItemRequestDto.getTotalPrice()));
             vocSaleItem.setSaleId(saleId);
             vocSaleItem.setSort(sort);
             vocSaleItem.preInsert();
@@ -158,6 +171,8 @@ public class VocSaleServiceImpl extends ServiceImpl<VocSaleMapper,VocSale> imple
         VocSale vocSale = getById(id);
         DetailVocSaleResponseDto detailVocSaleResponseDto = new DetailVocSaleResponseDto();
         BeanUtils.copyProperties(vocSale,detailVocSaleResponseDto);
+        //销售总金额换算 int -> double
+        detailVocSaleResponseDto.setTotalPrice(PriceUtils.i2d(vocSale.getTotalPrice()));
         //获取销售商品信息
         List<DetailVocSaleItemResponseDto> detailVocSaleItemResponseDtoList = Lists.newArrayList();
         List<VocSaleItem> vocSaleItemList = vocSaleItemService.list(new QueryWrapper<VocSaleItem>()
@@ -170,6 +185,10 @@ public class VocSaleServiceImpl extends ServiceImpl<VocSaleMapper,VocSale> imple
             {
                 DetailVocSaleItemResponseDto detailVocSaleItemResponseDto = new DetailVocSaleItemResponseDto();
                 BeanUtils.copyProperties(vocSaleItem,detailVocSaleItemResponseDto);
+                //商品总价换算 int -> double
+                detailVocSaleItemResponseDto.setTotalPrice(PriceUtils.i2d(vocSaleItem.getTotalPrice()));
+                //商品单价换算 int -> double
+                detailVocSaleItemResponseDto.setSinglePrice(PriceUtils.i2d(vocSaleItem.getSinglePrice()));
                 detailVocSaleItemResponseDtoList.add(detailVocSaleItemResponseDto);
             });
         }
@@ -211,6 +230,8 @@ public class VocSaleServiceImpl extends ServiceImpl<VocSaleMapper,VocSale> imple
             {
                 ListVocSaleResponseDto listVocSaleResponseDto = new ListVocSaleResponseDto();
                 BeanUtils.copyProperties(vocSale,listVocSaleResponseDto);
+                //销售总金额换算 int -> double
+                listVocSaleResponseDto.setTotalPrice(PriceUtils.i2d(vocSale.getTotalPrice()));
                 resultList.add(listVocSaleResponseDto);
             });
         }

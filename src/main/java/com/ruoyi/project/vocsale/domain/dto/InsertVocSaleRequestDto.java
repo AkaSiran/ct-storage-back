@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -23,10 +22,10 @@ public class InsertVocSaleRequestDto extends BaseRequestDto
     private String saleType;
 
     @ApiModelProperty(value = "销售总量")
-    private int totalAmount;
+    private Integer totalAmount;
 
     @ApiModelProperty(value = "销售总价")
-    private BigDecimal totalPrice;
+    private Double totalPrice;
 
     @ApiModelProperty(value = "销售商品列表")
     List<InsertVocSaleItemRequestDto> insertVocSaleItemRequestDtoList;
