@@ -18,5 +18,5 @@ public class UpdateVocAllotItemRequestDto extends BaseRequestDto
     private Long productId;
 
     @ApiModelProperty(value = "商品数量")
-    private int amount;
+    private Integer amount;
 }

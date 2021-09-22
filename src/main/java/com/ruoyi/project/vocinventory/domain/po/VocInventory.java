@@ -19,5 +19,5 @@ public class VocInventory extends BasePo
     private Long deptId;
 
     /**库存数量*/
-    private int amount;
+    private Integer amount;
 }

@@ -26,7 +26,7 @@ public class VocAllot extends BasePo
     private Long operateDeptId;
 
     /**调拨总数*/
-    private int totalAmount;
+    private Integer totalAmount;
 
     /**调拨类型*/
     private String allotType;

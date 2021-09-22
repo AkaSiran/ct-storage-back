@@ -20,8 +20,8 @@ public class VocAllotItem extends BasePoWithoutLogic
     private Long productId;
 
     /**商品数量*/
-    private int amount;
+    private Integer amount;
 
     /**排序*/
-    private int sort;
+    private Integer sort;
 }

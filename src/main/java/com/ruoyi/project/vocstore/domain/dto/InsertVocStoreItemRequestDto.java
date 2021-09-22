@@ -17,5 +17,5 @@ public class InsertVocStoreItemRequestDto extends BaseRequestDto
     private Long productId;
 
     @ApiModelProperty(value = "商品数量", required = true)
-    private int amount;
+    private Integer amount;
 }

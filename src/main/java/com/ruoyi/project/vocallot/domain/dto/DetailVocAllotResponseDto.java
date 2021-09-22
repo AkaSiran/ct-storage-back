@@ -24,7 +24,7 @@ public class DetailVocAllotResponseDto extends BaseResponseDto
     private Long operateDeptId;
 
     @ApiModelProperty(value = "调拨总数")
-    private int totalAmount;
+    private Integer totalAmount;
 
     @ApiModelProperty(value = "调拨类型")
     private String allotType;

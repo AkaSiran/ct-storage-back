@@ -20,5 +20,5 @@ public class TakeVocInventoryRequestDto extends BaseRequestDto
     private Long productId;
 
     @ApiModelProperty("商品数量")
-    private int amount;
+    private Integer amount;
 }

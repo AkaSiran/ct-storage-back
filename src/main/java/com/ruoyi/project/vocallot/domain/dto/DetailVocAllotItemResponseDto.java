@@ -19,8 +19,8 @@ public class DetailVocAllotItemResponseDto extends BaseResponseDto
     private Long productId;
 
     @ApiModelProperty(value = "商品数量")
-    private int amount;
+    private Integer amount;
 
     @ApiModelProperty(value = "排序")
-    private int sort;
+    private Integer sort;
 }
