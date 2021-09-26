@@ -31,5 +31,5 @@ public class InsertVocPurchaseRequestDto extends BaseRequestDto
     private Double totalPrice;
 
     @ApiModelProperty(value = "采购商品信息列表")
-    private List<InsertVocPurchaseItemRequestDto> insertVocPurchaseItemRequestDtoList;
+    private List<InsertVocPurchaseItemRequestDto> itemList;
 }

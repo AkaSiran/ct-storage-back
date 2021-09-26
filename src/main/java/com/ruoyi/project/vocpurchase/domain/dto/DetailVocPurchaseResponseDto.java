@@ -37,5 +37,5 @@ public class DetailVocPurchaseResponseDto extends BaseResponseDto
     private String purchaseStatus;
 
     @ApiModelProperty(value = "采购商品详情列表")
-    private List<DetailVocPurchaseItemResponseDto> detailVocPurchaseItemResponseDtoList;
+    private List<DetailVocPurchaseItemResponseDto> itemList;
 }

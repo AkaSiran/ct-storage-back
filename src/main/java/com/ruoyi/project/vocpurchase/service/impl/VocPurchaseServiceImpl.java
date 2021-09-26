@@ -47,7 +47,7 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
     @Transactional
     public AjaxResult insertPurchase(InsertVocPurchaseRequestDto insertVocPurchaseRequestDto)
     {
-        List<InsertVocPurchaseItemRequestDto> insertVocPurchaseItemRequestDtoList = insertVocPurchaseRequestDto.getInsertVocPurchaseItemRequestDtoList();
+        List<InsertVocPurchaseItemRequestDto> insertVocPurchaseItemRequestDtoList = insertVocPurchaseRequestDto.getItemList();
         if(StringUtils.isEmpty(insertVocPurchaseItemRequestDtoList))
         {
             log.info("采购商品信息列表为空");
@@ -87,7 +87,7 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
     @Transactional
     public AjaxResult updatePurchase(UpdateVocPurchaseRequestDto updateVocPurchaseRequestDto)
     {
-        List<UpdateVocPurchaseItemRequestDto> updateVocPurchaseItemRequestDtoList = updateVocPurchaseRequestDto.getUpdateVocPurchaseItemRequestDtoList();
+        List<UpdateVocPurchaseItemRequestDto> updateVocPurchaseItemRequestDtoList = updateVocPurchaseRequestDto.getItemList();
         if(CollectionUtils.isEmpty(updateVocPurchaseItemRequestDtoList))
         {
             log.info("采购商品信息列表为空");
@@ -189,7 +189,7 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
                 detailVocPurchaseItemResponseDto.setTotalPrice(PriceUtils.i2d(vocPurchaseItem.getTotalPrice()));
                 detailVocPurchaseItemResponseDtoList.add(detailVocPurchaseItemResponseDto);
             });
-            detailVocPurchaseResponseDto.setDetailVocPurchaseItemResponseDtoList(detailVocPurchaseItemResponseDtoList);
+            detailVocPurchaseResponseDto.setItemList(detailVocPurchaseItemResponseDtoList);
         }
         return AjaxResult.success(detailVocPurchaseResponseDto);
     }
