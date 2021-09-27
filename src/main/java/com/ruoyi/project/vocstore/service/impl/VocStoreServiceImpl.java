@@ -72,6 +72,6 @@ public class VocStoreServiceImpl extends ServiceImpl<VocStoreMapper,VocStore> im
             putVocInventoryRequestDto.setDeptId(deptId);
             vocInventoryService.putVocInventory(putVocInventoryRequestDto);
         }
-        return AjaxResult.success();
+        return AjaxResult.success(vocStore);
     }
 }

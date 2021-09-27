@@ -22,6 +22,7 @@ import com.ruoyi.project.vocpurchase.service.VocPurchaseItemService;
 import com.ruoyi.project.vocpurchase.service.VocPurchaseService;
 import com.ruoyi.project.vocstore.domain.dto.InsertVocStoreItemRequestDto;
 import com.ruoyi.project.vocstore.domain.dto.InsertVocStoreRequestDto;
+import com.ruoyi.project.vocstore.domain.po.VocStore;
 import com.ruoyi.project.vocstore.service.VocStoreService;
 import com.ruoyi.project.vocsupplier.domain.po.VocSupplier;
 import com.ruoyi.project.vocsupplier.service.VocSupplierService;
@@ -179,8 +180,15 @@ public class VocPurchaseServiceImpl extends ServiceImpl<VocPurchaseMapper,VocPur
         //采购单状态变更
         if(storeResult.isOK())
         {
+            Object storeObj = storeResult.get("data");
+            VocStore vocStore = (VocStore)storeObj;
+            Long storeId = vocStore.getId();
             VocPurchase vocPurchaseStore = new VocPurchase();
-
+            vocPurchaseStore.setId(vocPurchase.getId());
+            vocPurchaseStore.setPurchaseStatus(VocPurchaseStatus.STORAGE.getCode());
+            vocPurchaseStore.setStoreId(storeId);
+            updateById(vocPurchaseStore);
+            return AjaxResult.success();
         }
         return AjaxResult.error("采购入库失败");
     }
