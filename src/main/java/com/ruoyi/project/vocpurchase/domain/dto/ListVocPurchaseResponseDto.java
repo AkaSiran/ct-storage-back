@@ -13,11 +13,21 @@ import lombok.Data;
 @ApiModel(value = "获取销售信息列表")
 public class ListVocPurchaseResponseDto extends BaseResponseDto
 {
+
+    @ApiModelProperty(value = "采购编号")
+    private String purchaseNo;
+
     @ApiModelProperty(value = "部门标识")
     private Long deptId;
 
+    @ApiModelProperty(value = "部门名称")
+    private String deptName;
+
     @ApiModelProperty(value = "厂商标识")
     private Long supplierId;
+
+    @ApiModelProperty(value = "厂商名称")
+    private String supplierName;
 
     @ApiModelProperty(value = "入库标识")
     private Long storeId;

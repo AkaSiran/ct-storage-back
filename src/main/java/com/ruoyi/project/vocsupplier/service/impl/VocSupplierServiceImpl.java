@@ -94,10 +94,10 @@ public class VocSupplierServiceImpl extends ServiceImpl<VocSupplierMapper,VocSup
         String no = selectVocSupplierRequestDto.getNo();
         String name = selectVocSupplierRequestDto.getName();
         String shortName = selectVocSupplierRequestDto.getShortName();
-        if(StringUtils.isNotBlank(no)) queryWrapper.like("no",no);
-        if(StringUtils.isNotBlank(name)) queryWrapper.like("name",name);
-        if(StringUtils.isNotBlank(shortName)) queryWrapper.like("shortName",shortName);
-        queryWrapper.orderByDesc("create_time");
+        if(StringUtils.isNotBlank(no)) queryWrapper.lambda().like(VocSupplier::getNo,no);
+        if(StringUtils.isNotBlank(name)) queryWrapper.lambda().like(VocSupplier::getName,name);
+        if(StringUtils.isNotBlank(shortName)) queryWrapper.lambda().like(VocSupplier::getShortName,shortName);
+        queryWrapper.lambda().orderByDesc(VocSupplier::getCreateTime);
         List<VocSupplier> list = list(queryWrapper);
         if(StringUtils.isNotEmpty(list))
         {

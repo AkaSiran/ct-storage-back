@@ -108,8 +108,8 @@ public class VocAllotServiceImpl extends ServiceImpl<VocAllotMapper,VocAllot> im
         //修改调拨商品信息
         List<VocAllotItem> vocAllotItemList = Lists.newArrayList();
         Long allotId = vocAllot.getId();
-        vocAllotItemService.remove(new QueryWrapper<VocAllotItem>()
-                .eq("allot_id",allotId));
+        vocAllotItemService.remove(new QueryWrapper<VocAllotItem>().lambda()
+                .eq(VocAllotItem::getAllotId,allotId));
         int sort = 0;
         for(UpdateVocAllotItemRequestDto updateVocAllotItemRequestDto : updateVocAllotItemRequestDtoList)
         {
@@ -146,9 +146,9 @@ public class VocAllotServiceImpl extends ServiceImpl<VocAllotMapper,VocAllot> im
             updateById(newAllot);
             //新增入库商品信息
             List<InsertVocStoreItemRequestDto> insertVocStoreItemRequestDtoList = Lists.newArrayList();
-            List<VocAllotItem> vocAllotItemList = vocAllotItemService.list(new QueryWrapper<VocAllotItem>()
-                    .eq("allot_id",allotId)
-                    .eq("del_flag","0"));
+            List<VocAllotItem> vocAllotItemList = vocAllotItemService.list(new QueryWrapper<VocAllotItem>().lambda()
+                    .eq(VocAllotItem::getAllotId,allotId)
+                    .eq(VocAllotItem::getDelFlag,"0"));
             for(VocAllotItem vocAllotItem : vocAllotItemList)
             {
                 InsertVocStoreItemRequestDto insertVocStoreItemRequestDto = new InsertVocStoreItemRequestDto();
@@ -176,9 +176,9 @@ public class VocAllotServiceImpl extends ServiceImpl<VocAllotMapper,VocAllot> im
             updateById(newAllot);
             //新增入库商品信息
             List<InsertVocStoreItemRequestDto> insertVocStoreItemRequestDtoList = Lists.newArrayList();
-            List<VocAllotItem> vocAllotItemList = vocAllotItemService.list(new QueryWrapper<VocAllotItem>()
-                    .eq("allot_id",allotId)
-                    .eq("del_flag","0"));
+            List<VocAllotItem> vocAllotItemList = vocAllotItemService.list(new QueryWrapper<VocAllotItem>().lambda()
+                    .eq(VocAllotItem::getAllotId,allotId)
+                    .eq(VocAllotItem::getDelFlag,"0"));
             for(VocAllotItem vocAllotItem : vocAllotItemList)
             {
                 InsertVocStoreItemRequestDto insertVocStoreItemRequestDto = new InsertVocStoreItemRequestDto();
@@ -217,9 +217,9 @@ public class VocAllotServiceImpl extends ServiceImpl<VocAllotMapper,VocAllot> im
         updateById(newVocAllot);
         //新增出库商品信息
         List<InsertVocDeliverItemRequestDto> insertVocDeliverItemRequestDtoList = Lists.newArrayList();
-        List<VocAllotItem> vocAllotItemList = vocAllotItemService.list(new QueryWrapper<VocAllotItem>()
-                .eq("allot_id",allotId)
-                .eq("del_flag","0"));
+        List<VocAllotItem> vocAllotItemList = vocAllotItemService.list(new QueryWrapper<VocAllotItem>().lambda()
+                .eq(VocAllotItem::getAllotId,allotId)
+                .eq(VocAllotItem::getDelFlag,"0"));
         for(VocAllotItem vocAllotItem : vocAllotItemList)
         {
             InsertVocDeliverItemRequestDto insertVocDeliverItemRequestDto = new InsertVocDeliverItemRequestDto();
@@ -249,7 +249,6 @@ public class VocAllotServiceImpl extends ServiceImpl<VocAllotMapper,VocAllot> im
             log.info("当前调拨单状态 = {}",VocAllotStatus.getAllotName(allotStatus));
             return AjaxResult.error("该调拨单不符合删除条件");
         }
-
-        return null;
+        return AjaxResult.success();
     }
 }

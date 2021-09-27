@@ -105,12 +105,12 @@ public class VocProductServiceImpl extends ServiceImpl<VocProductMapper,VocProdu
         String shortName = selectVocProductRequestDto.getShortName();
         String type = selectVocProductRequestDto.getType();
         String size = selectVocProductRequestDto.getSize();
-        if(StringUtils.isNotBlank(no)) queryWrapper.like("no",no);
-        if(StringUtils.isNotBlank(name)) queryWrapper.like("name",name);
-        if(StringUtils.isNotBlank(shortName)) queryWrapper.like("shortName",shortName);
-        if(StringUtils.isNotBlank(type)) queryWrapper.eq("type",type);
-        if(StringUtils.isNotBlank(size)) queryWrapper.eq("size",size);
-        queryWrapper.orderByDesc("create_time");
+        if(StringUtils.isNotBlank(no)) queryWrapper.lambda().like(VocProduct::getNo,no);
+        if(StringUtils.isNotBlank(name)) queryWrapper.lambda().like(VocProduct::getName,name);
+        if(StringUtils.isNotBlank(shortName)) queryWrapper.lambda().like(VocProduct::getShortName,shortName);
+        if(StringUtils.isNotBlank(type)) queryWrapper.lambda().eq(VocProduct::getType,type);
+        if(StringUtils.isNotBlank(size)) queryWrapper.lambda().eq(VocProduct::getSize,size);
+        queryWrapper.lambda().orderByDesc(VocProduct::getCreateTime);
         List<VocProduct> list = list(queryWrapper);
         if(CollectionUtils.isNotEmpty(list))
         {

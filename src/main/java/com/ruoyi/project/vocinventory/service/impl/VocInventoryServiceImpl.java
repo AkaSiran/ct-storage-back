@@ -26,9 +26,9 @@ public class VocInventoryServiceImpl extends ServiceImpl<VocInventoryMapper,VocI
         Long productId = putVocInventoryRequestDto.getProductId();
         Long deptId = putVocInventoryRequestDto.getDeptId();
         int amount = putVocInventoryRequestDto.getAmount();
-        VocInventory existInventory = getOne(new QueryWrapper<VocInventory>()
-                .eq("product_id",productId)
-                .eq("dept_id",deptId));
+        VocInventory existInventory = getOne(new QueryWrapper<VocInventory>().lambda()
+                .eq(VocInventory::getProductId,productId)
+                .eq(VocInventory::getDeptId,deptId));
         //库存中已存在该商品信息
         if(StringUtils.isNotNull(existInventory) && StringUtils.isNotNull(existInventory.getId()))
         {
@@ -61,9 +61,9 @@ public class VocInventoryServiceImpl extends ServiceImpl<VocInventoryMapper,VocI
         Long productId = takeVocInventoryRequestDto.getProductId();
         Long deptId = takeVocInventoryRequestDto.getDeptId();
         int amount = takeVocInventoryRequestDto.getAmount();
-        VocInventory existInventory = getOne(new QueryWrapper<VocInventory>()
-                .eq("product_id",productId)
-                .eq("dept_id",deptId));
+        VocInventory existInventory = getOne(new QueryWrapper<VocInventory>().lambda()
+                .eq(VocInventory::getProductId,productId)
+                .eq(VocInventory::getDeptId,deptId));
         if(StringUtils.isNotNull(existInventory) && StringUtils.isNotNull(existInventory.getId()))
         {
             int existAmount = existInventory.getAmount();

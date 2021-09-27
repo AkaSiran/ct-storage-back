@@ -1,7 +1,7 @@
 package com.ruoyi.project.vocpurchase.domain.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ruoyi.framework.web.domain.po.BasePoWithoutLogic;
+import com.ruoyi.framework.web.domain.po.BasePo;
 import lombok.Data;
 
 /**
@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 @TableName("voc_purchase_item")
-public class VocPurchaseItem extends BasePoWithoutLogic
+public class VocPurchaseItem extends BasePo
 {
     /**采购标识*/
     private Long purchaseId;

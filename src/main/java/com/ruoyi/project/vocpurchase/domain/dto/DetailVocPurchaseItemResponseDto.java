@@ -19,6 +19,9 @@ public class DetailVocPurchaseItemResponseDto extends BaseResponseDto
     @ApiModelProperty(value = "商品标识")
     private Long productId;
 
+    @ApiModelProperty(value = "商品名称")
+    private String productName;
+
     @ApiModelProperty(value = "商品数量")
     private Integer amount;
 

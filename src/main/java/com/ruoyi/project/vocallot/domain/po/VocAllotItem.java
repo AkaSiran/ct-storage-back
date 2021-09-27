@@ -1,7 +1,7 @@
 package com.ruoyi.project.vocallot.domain.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ruoyi.framework.web.domain.po.BasePoWithoutLogic;
+import com.ruoyi.framework.web.domain.po.BasePo;
 import lombok.Data;
 
 /**
@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 @TableName("voc_allot_item")
-public class VocAllotItem extends BasePoWithoutLogic
+public class VocAllotItem extends BasePo
 {
 
     /**调拨标识*/

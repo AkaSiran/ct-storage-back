@@ -105,8 +105,8 @@ public class VocSaleServiceImpl extends ServiceImpl<VocSaleMapper,VocSale> imple
         //修改销售商品信息
         List<VocSaleItem> vocSaleItemList = Lists.newArrayList();
         Long saleId = vocSale.getId();
-        vocSaleItemService.remove(new QueryWrapper<VocSaleItem>()
-                .eq("sale_id",saleId));
+        vocSaleItemService.remove(new QueryWrapper<VocSaleItem>().lambda()
+                .eq(VocSaleItem::getSaleId,saleId));
         int sort = 0;
         for(UpdateVocSaleItemRequestDto updateVocSaleItemRequestDto : updateVocSaleItemRequestDtoList)
         {
@@ -137,10 +137,10 @@ public class VocSaleServiceImpl extends ServiceImpl<VocSaleMapper,VocSale> imple
             log.info("当前销售单状态 = {}",VocSaleStatus.getStatusName(saleStatus));
             return AjaxResult.error("该销售单不符合出库条件");
         }
-        List<VocSaleItem> vocSaleItemList = vocSaleItemService.list(new QueryWrapper<VocSaleItem>()
-                .eq("sale_id",id)
-                .eq("del_flag","0")
-                .orderByAsc("create_time"));
+        List<VocSaleItem> vocSaleItemList = vocSaleItemService.list(new QueryWrapper<VocSaleItem>().lambda()
+                .eq(VocSaleItem::getSaleId,id)
+                .eq(VocSaleItem::getDelFlag,"0")
+                .orderByAsc(VocSaleItem::getCreateTime));
         if(CollectionUtils.isEmpty(vocSaleItemList))
         {
             log.info("销售商品信息列表为空");
@@ -175,10 +175,10 @@ public class VocSaleServiceImpl extends ServiceImpl<VocSaleMapper,VocSale> imple
         detailVocSaleResponseDto.setTotalPrice(PriceUtils.i2d(vocSale.getTotalPrice()));
         //获取销售商品信息
         List<DetailVocSaleItemResponseDto> detailVocSaleItemResponseDtoList = Lists.newArrayList();
-        List<VocSaleItem> vocSaleItemList = vocSaleItemService.list(new QueryWrapper<VocSaleItem>()
-                .eq("sale_id",id)
-                .eq("del_flag","0")
-                .orderByAsc("create_time"));
+        List<VocSaleItem> vocSaleItemList = vocSaleItemService.list(new QueryWrapper<VocSaleItem>().lambda()
+                .eq(VocSaleItem::getSaleId,id)
+                .eq(VocSaleItem::getDelFlag,"0")
+                .orderByAsc(VocSaleItem::getCreateTime));
         if(CollectionUtils.isNotEmpty(vocSaleItemList))
         {
             vocSaleItemList.forEach(vocSaleItem ->
@@ -208,20 +208,20 @@ public class VocSaleServiceImpl extends ServiceImpl<VocSaleMapper,VocSale> imple
             return AjaxResult.error("该销售单不符合删除条件");
         }
         removeById(id);
-        vocSaleItemService.remove(new QueryWrapper<VocSaleItem>().eq("sale_id",id));
+        vocSaleItemService.remove(new QueryWrapper<VocSaleItem>().lambda().eq(VocSaleItem::getSaleId,id));
         return AjaxResult.success();
     }
 
     @Override
     public List<ListVocSaleResponseDto> saleList(SelectVocSaleRequestDto selectVocSaleRequestDto)
     {
-        QueryWrapper queryWrapper = new QueryWrapper();
+        QueryWrapper<VocSale> queryWrapper = new QueryWrapper<VocSale>();
         Long deptId = selectVocSaleRequestDto.getDeptId();
         String saleStatus = selectVocSaleRequestDto.getSaleStatus();
         String saleType = selectVocSaleRequestDto.getSaleType();
-        if(StringUtils.isNotNull(deptId)) queryWrapper.eq("dept_id",deptId);
-        if(StringUtils.isNotBlank(saleStatus)) queryWrapper.eq("sale_status",saleStatus);
-        if(StringUtils.isNotBlank(saleType)) queryWrapper.eq("sale_type",saleType);
+        if(StringUtils.isNotNull(deptId)) queryWrapper.lambda().eq(VocSale::getDeptId,deptId);
+        if(StringUtils.isNotBlank(saleStatus)) queryWrapper.lambda().eq(VocSale::getSaleStatus,saleStatus);
+        if(StringUtils.isNotBlank(saleType)) queryWrapper.lambda().eq(VocSale::getSaleType,saleType);
         List<VocSale> list = list(queryWrapper);
         List<ListVocSaleResponseDto> resultList = Lists.newArrayList();
         if(CollectionUtils.isNotEmpty(list))
